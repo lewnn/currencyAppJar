@@ -1,0 +1,33 @@
+package com.app.config;
+
+public abstract class MysqlConfig {
+    /**
+     * mysql的ip
+     */
+    public final static  String MYSQL_IP = "10.1.51.25";
+//    public final static  String MYSQL_IP = "10.10.10.206"; //东阿
+
+
+    /**
+     * 用户
+     */
+    public final static String MYSQL_USER = "dfly";
+    /**
+     * 用户
+     */
+    public final static String MYSQL_PORT = "3306";
+    /**
+     * 密码
+     */
+    public final static String MYSQL_PASSWORD = "Dareway@2020";
+    /**
+     * 驱动
+     */
+    public final static String DRIVER = "com.mysql.cj.jdbc.Driver";
+    /**
+     * 驱动
+     */
+    public final static String URL = "jdbc:mysql://" + MYSQL_IP + ":" + MYSQL_PORT+ "/" + MYSQL_USER + "?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai";
+
+
+}

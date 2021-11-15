@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="currencyAppJar:jar" />
+    </artifacts-to-build>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="aa89a064-89df-4c51-9dd2-b37b839d1293" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeStyleSettingsInfer">
+    <option name="done" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="1" />
+  </component>
+  <component name="ProjectId" id="1jPSZfJn2qbp8uyAhvA263dMb5P" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="go.import.settings.migrated" value="true" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/flink-connector-clickhouse-1.12.0.jar" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.57701147" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\idea_files\demo_files\currencyAppJar\src\main\java\org\apache\flink\connector\jdbc\internal\converter" />
+      <recent name="F:\idea_files\demo_files\currencyAppJar\src\main\java\org\apache\flink\connector\jdbc\dialect" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\idea_files\demo_files\currencyAppJar\src\main\java" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.ExecuteSqlProcess">
+    <configuration name="AggTablePara" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.app.entity.AggTablePara" />
+      <module name="currencyAppJar" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.app.entity.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExecuteSqlProcess" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.app.utils.ExecuteSqlProcess" />
+      <module name="currencyAppJar" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.app.utils.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MainApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.app.MainApp" />
+      <module name="currencyAppJar" />
+      <option name="PROGRAM_PARAMETERS" value="17" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.app.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Test2" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.app.test.Test2" />
+      <module name="currencyAppJar" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.app.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestOracle" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.app.TestOracle" />
+      <module name="currencyAppJar" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.app.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.ExecuteSqlProcess" />
+        <item itemvalue="Application.Test2" />
+        <item itemvalue="Application.MainApp" />
+        <item itemvalue="Application.AggTablePara" />
+        <item itemvalue="Application.TestOracle" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="aa89a064-89df-4c51-9dd2-b37b839d1293" name="Default Changelist" comment="" />
+      <created>1603704290121</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1603704290121</updated>
+      <workItem from="1603704292964" duration="19179000" />
+      <workItem from="1603788546438" duration="2220000" />
+      <workItem from="1603956015147" duration="4082000" />
+      <workItem from="1604037123927" duration="606000" />
+      <workItem from="1604472037941" duration="917000" />
+      <workItem from="1604500117252" duration="5227000" />
+      <workItem from="1604659996003" duration="705000" />
+      <workItem from="1604842715053" duration="35000" />
+      <workItem from="1605150160373" duration="4000" />
+      <workItem from="1612488156418" duration="148000" />
+      <workItem from="1612492826418" duration="607000" />
+      <workItem from="1614045814159" duration="1917000" />
+      <workItem from="1614048807281" duration="3259000" />
+      <workItem from="1615789374616" duration="1897000" />
+      <workItem from="1615855296792" duration="2000" />
+      <workItem from="1615881301989" duration="1309000" />
+      <workItem from="1615968744640" duration="810000" />
+      <workItem from="1616467274661" duration="2950000" />
+      <workItem from="1617152077660" duration="724000" />
+      <workItem from="1619415214757" duration="129000" />
+      <workItem from="1619416492849" duration="255000" />
+      <workItem from="1619594513257" duration="19840000" />
+      <workItem from="1619676009743" duration="3352000" />
+      <workItem from="1619763483733" duration="2640000" />
+      <workItem from="1620266805829" duration="2221000" />
+      <workItem from="1620272887850" duration="745000" />
+      <workItem from="1622013677107" duration="2396000" />
+      <workItem from="1631069539512" duration="2189000" />
+      <workItem from="1631242200029" duration="11282000" />
+      <workItem from="1631265720602" duration="301000" />
+      <workItem from="1631676794853" duration="15951000" />
+      <workItem from="1631752986420" duration="12599000" />
+      <workItem from="1631839407218" duration="5268000" />
+      <workItem from="1631868629389" duration="29000" />
+      <workItem from="1631869498986" duration="1892000" />
+      <workItem from="1631929332147" duration="8991000" />
+      <workItem from="1634606970949" duration="238000" />
+      <workItem from="1634610988838" duration="517000" />
+      <workItem from="1634786409208" duration="35000" />
+      <workItem from="1634806526519" duration="715000" />
+      <workItem from="1636445661480" duration="640000" />
+      <workItem from="1636947632974" duration="6953000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/app/utils/GetSubStr.java</url>
+          <line>58</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/currencyAppJar$MainApp.ic" NAME="MainApp Coverage Results" MODIFIED="1603715698570" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.app.*</FILTER>
+    </SUITE>
+  </component>
+</project>
