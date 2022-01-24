@@ -99,14 +99,20 @@ public class ExecuteSqlProcess {
      * @operate 获取DIM数据
      * @date 2022/1/21 17:07
      */
-    public static Map<String, String> getCodeByValue(String tableName, String codeColumn, String valueColumn) {
+    public static Map<String, String> getCodeByValue(String tableName, String dictValue, String codeColumn, String valueColumn, String dictColumn) {
         Map<String, String> res = new ConcurrentHashMap<>();
         Connection con = null;
         Statement statement = null;
         ResultSet resultSet = null;
         try {
-            String mysqlDictQuery = FlinkConstant.sqlQueryMysqlDimTable;
-            mysqlDictQuery = String.format(mysqlDictQuery, codeColumn, valueColumn, tableName);
+            String mysqlDictQuery = "";
+            if (dictValue != null && dictColumn != null && !dictValue.isEmpty() && !dictColumn.isEmpty()) {
+                mysqlDictQuery = FlinkConstant.sqlQueryMysqlDimTableWithWhere;
+                mysqlDictQuery = String.format(mysqlDictQuery, codeColumn, valueColumn, tableName, dictColumn, dictValue);
+            } else {
+                mysqlDictQuery = FlinkConstant.sqlQueryMysqlDimTable;
+                mysqlDictQuery = String.format(mysqlDictQuery, codeColumn, valueColumn, tableName);
+            }
             con = ConUtil.getConn(MysqlConfig.DRIVER, MysqlConfig.DIM_URL, MysqlConfig.MYSQL_USER, MysqlConfig.MYSQL_PASSWORD);
             statement = con.createStatement();
             resultSet = statement.executeQuery(mysqlDictQuery);

@@ -84,6 +84,11 @@ public abstract class FlinkConstant {
     public static final String sqlQueryMysqlDimTable = "SELECT %s ,%s  from %s";
 
     /**
+     * 查询mysql with Where
+     */
+    public static final String sqlQueryMysqlDimTableWithWhere = "SELECT %s ,%s  from %s where %s = '%s'";
+
+    /**
      * 创建AGG table的创建语句
      */
     public static final String CREATE_AGG_TABLE = "CREATEAGGTABLE";
