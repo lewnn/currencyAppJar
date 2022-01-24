@@ -26,6 +26,11 @@ public abstract class FlinkConstant {
     public final static String UDF_TO_DICT_MAPPING = "TO_DICT_MAPPING";
 
     /**
+     * 根据key获取value
+     */
+    public final static String UDF_TO_GET_VALUE_BY_KEY = "GET_VALUE";
+
+    /**
      * 字典函数函数名称的字典字段的index
      */
     public final static int UDF_TO_DICT_MAPPING_DICT_INDEX = 1;
@@ -41,7 +46,7 @@ public abstract class FlinkConstant {
     public final static String UDF_GET_KEY = "GET_KEY";
 
     //自定义函数列表
-    public final static ArrayList<String> UDF_LIST = new ArrayList<>(Arrays.asList(UDF_TO_DICT_MAPPING, UDF_TO_MAP, UDF_GET_KEY));
+    public final static ArrayList<String> UDF_LIST = new ArrayList<>(Arrays.asList(UDF_TO_DICT_MAPPING, UDF_TO_MAP, UDF_GET_KEY, UDF_TO_GET_VALUE_BY_KEY));
 
     /**
      * 根据数据里的源code获取目标code
@@ -72,6 +77,11 @@ public abstract class FlinkConstant {
      * 查询mysql
      */
     public static final String sqlQueryMysql = "SELECT dict_version,source_code,source_value,source_dict,target_code,target_value from dlink_dict_mapping";
+
+    /**
+     * 查询mysql
+     */
+    public static final String sqlQueryMysqlDimTable = "SELECT %s ,%s  from %s";
 
     /**
      * 创建AGG table的创建语句

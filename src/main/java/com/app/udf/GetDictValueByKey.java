@@ -41,7 +41,7 @@ public class GetDictValueByKey extends ScalarFunction {
     }
 
     public String eval(String xPara, String xDict, String version, String type) {
-        return  eval(xPara, xDict, version, type, null);
+        return eval(xPara, xDict, version, type, null);
     }
 
     /**
@@ -75,5 +75,25 @@ public class GetDictValueByKey extends ScalarFunction {
             }
         }
 
+    }
+
+    @Override
+    public void close() throws Exception {
+        if (allDataSet != null) {
+            allDataSet.clear();
+        }
+        if (mapForCodeCode != null) {
+            mapForCodeCode.clear();
+        }
+        if (mapForCodeValue != null) {
+            mapForCodeValue.clear();
+        }
+        if (mapForValueCode != null) {
+            mapForValueCode.clear();
+        }
+        if (mapForValueValue != null) {
+            mapForValueValue.clear();
+        }
+        super.close();
     }
 }

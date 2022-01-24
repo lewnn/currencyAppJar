@@ -2,6 +2,8 @@ package com.app.utils;
 
 
 import com.app.config.MysqlConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.sql.*;
@@ -14,6 +16,7 @@ import java.sql.*;
  * @createDate 2020/10/26
  */
 public class ConUtil {
+    private static Logger logger = LoggerFactory.getLogger(ConUtil.class);
     public static Connection conn = null;
 
     /**
@@ -22,20 +25,17 @@ public class ConUtil {
      * @operate 连接mysql
      * @date 2021/9/16 9:57
      */
-    public static Connection getConn() throws IOException {
-        String driver = MysqlConfig.DRIVER;
-        String url = MysqlConfig.URL;
-        String username = MysqlConfig.MYSQL_USER;
-        String password = MysqlConfig.MYSQL_PASSWORD;
+    public static Connection getConn(String driver, String url, String username, String password) throws IOException {
         try {
             Class.forName(driver);
             conn = DriverManager.getConnection(url, username, password);
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
+            logger.error("获取数据库连接失败", e);
             close();
         }
         return conn;
     }
+
 
 
     public static void close() {
@@ -44,7 +44,7 @@ public class ConUtil {
                 conn.close();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("关闭Connect失败", e);
         }
     }
 
@@ -54,7 +54,7 @@ public class ConUtil {
                 statement.close();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("关闭Statement失败", e);
         }
     }
 
@@ -64,7 +64,7 @@ public class ConUtil {
                 resultSet.close();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("关闭ResultSet失败", e);
         }
     }
     public static void close(Connection conn, Statement statement, ResultSet resultSet) {

@@ -4,6 +4,7 @@ import com.app.MainApp;
 import com.app.constant.FlinkConstant;
 import com.app.udf.GetDictValueByKey;
 import com.app.udf.GetKey;
+import com.app.udf.GetValueByKey;
 import com.app.udtf.RowsToMap;
 import org.apache.flink.runtime.state.filesystem.FsStateBackend;
 import org.apache.flink.streaming.api.CheckpointingMode;
@@ -12,6 +13,8 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import org.apache.flink.types.Row;
 import org.apache.flink.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -20,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 public class FlinkUtils {
+    private static Logger logger = LoggerFactory.getLogger(FlinkUtils.class);
 
     /**
      * JSON字符串转Map
@@ -37,7 +41,7 @@ public class FlinkUtils {
                     map.put(msgInfo[0], msgInfo[1]);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("JSON转Map是出错", e);
             }
         }
         return map;
@@ -83,7 +87,7 @@ public class FlinkUtils {
         //rocksdb 是否禁用
         if (mapFromJsonStr.containsKey(FlinkConstant.STATE_BACKEND_TYPE)) {
             Boolean rocksDBAbandon = Boolean.valueOf(mapFromJsonStr.get(FlinkConstant.STATE_BACKEND_TYPE).toString());
-            System.out.println(LocalDateTime.now() + " rocksDBAbandon " + rocksDBAbandon);
+            logger.info(LocalDateTime.now() + " rocksDBAbandon " + rocksDBAbandon);
             if (!rocksDBAbandon) {
                 streamEnv.setStateBackend(new FsStateBackend(FlinkConstant.STATE_BACKEND_DIR));
             }
@@ -91,7 +95,7 @@ public class FlinkUtils {
         //并行度设置
         if (mapFromJsonStr.containsKey(FlinkConstant.PARALLELISM_NAME)) {
             Integer numParall = Integer.valueOf(mapFromJsonStr.get(FlinkConstant.PARALLELISM_NAME).toString());
-            System.out.println(LocalDateTime.now() + " numParall " + numParall);
+            logger.info(LocalDateTime.now() + " numParall " + numParall);
             streamEnv.setParallelism(numParall);
         }
     }
@@ -124,21 +128,27 @@ public class FlinkUtils {
                 case FlinkConstant.UDF_TO_DICT_MAPPING:
                     if (FlinkUtils.checkContainsOneFunction(listSql, FlinkConstant.UDF_TO_DICT_MAPPING)) {
                         ExecuteSqlProcess.getCodeOrValueFunctionData(getDictTypeForUdf(listSql));
-                        System.out.println("加载函数" + FlinkConstant.UDF_TO_DICT_MAPPING);
+                        logger.info("加载函数" + FlinkConstant.UDF_TO_DICT_MAPPING);
                         streamTableEnv.createTemporarySystemFunction(FlinkConstant.UDF_TO_DICT_MAPPING, new GetDictValueByKey(MainApp.allDataSet));
                         MainApp.allDataSet = null;
                     }
                     break;
                 case FlinkConstant.UDF_TO_MAP:
                     if (FlinkUtils.checkContainsOneFunction(listSql, FlinkConstant.UDF_TO_MAP)) {
-                        System.out.println("加载函数" + FlinkConstant.UDF_TO_MAP);
+                        logger.info("加载函数" + FlinkConstant.UDF_TO_MAP);
                         streamTableEnv.registerFunction(FlinkConstant.UDF_TO_MAP, new RowsToMap());
                     }
                     break;
                 case FlinkConstant.UDF_GET_KEY:
                     if (FlinkUtils.checkContainsOneFunction(listSql, FlinkConstant.UDF_GET_KEY)) {
-                        System.out.println("加载函数" + FlinkConstant.UDF_GET_KEY);
+                        logger.info("加载函数" + FlinkConstant.UDF_GET_KEY);
                         streamTableEnv.createTemporarySystemFunction(FlinkConstant.UDF_GET_KEY, GetKey.class);
+                    }
+                    break;
+                case FlinkConstant.UDF_TO_GET_VALUE_BY_KEY:
+                    if (FlinkUtils.checkContainsOneFunction(listSql, FlinkConstant.UDF_TO_GET_VALUE_BY_KEY)) {
+                        logger.info("加载函数" + FlinkConstant.UDF_TO_GET_VALUE_BY_KEY);
+                        streamTableEnv.createTemporarySystemFunction(FlinkConstant.UDF_TO_GET_VALUE_BY_KEY, GetValueByKey.class);
                     }
                     break;
             }
@@ -147,11 +157,10 @@ public class FlinkUtils {
 
 
     /**
-     *
+     * @return java.lang.String
      * @author lcg
      * @operate 获取字典类型
      * @date 2021/9/17 9:48
-     * @return java.lang.String
      */
     public static String getDictTypeForUdf(List<String> listSql) {
         ArrayList<String> list = new ArrayList<>();

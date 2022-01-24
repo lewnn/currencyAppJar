@@ -15,6 +15,10 @@ public abstract class MysqlConfig {
     /**
      * 用户
      */
+    public final static String MYSQL_DIM_USER = "dim";
+    /**
+     * 用户
+     */
     public final static String MYSQL_PORT = "3306";
     /**
      * 密码
@@ -25,9 +29,13 @@ public abstract class MysqlConfig {
      */
     public final static String DRIVER = "com.mysql.cj.jdbc.Driver";
     /**
-     * 驱动
+     * URL
      */
     public final static String URL = "jdbc:mysql://" + MYSQL_IP + ":" + MYSQL_PORT+ "/" + MYSQL_USER + "?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai";
+    /**
+     *  DIM的URL
+     */
+    public final static String DIM_URL = "jdbc:mysql://" + MYSQL_IP + ":" + MYSQL_PORT+ "/" + MYSQL_DIM_USER + "?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai";
 
 
 }
