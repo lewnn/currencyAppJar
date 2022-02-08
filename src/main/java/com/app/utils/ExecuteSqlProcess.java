@@ -5,13 +5,11 @@ import com.app.config.MysqlConfig;
 import com.app.constant.FlinkConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -54,7 +52,7 @@ public class ExecuteSqlProcess {
                         return envConfig;
                     }
                 } catch (SQLException e1) {
-                    logger.error(LocalDateTime.now().toString() + "任务异常");
+                    logger.error( "任务异常");
                     logger.error("执行sql失败", e1);
                     logger.error("↑↑↑↑↑↑↑↑↑  任务异常结束 end ↑↑↑↑↑↑");
                 }

@@ -2,7 +2,7 @@ package com.app.entity;
 
 import com.app.utils.GetSubStr;
 import org.apache.flink.table.api.Table;
-import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
+import org.apache.flink.table.api.TableEnvironment;
 
 import java.util.List;
 
@@ -48,7 +48,7 @@ public class AggTablePara {
      * @param streamTableEnv
      * @param aggTablePara
      */
-    public static void createAggTable(StreamTableEnvironment streamTableEnv, AggTablePara aggTablePara) {
+    public static void createAggTable(TableEnvironment streamTableEnv, AggTablePara aggTablePara) {
         Table tab = streamTableEnv.sqlQuery("select * from "+ aggTablePara.getTable());
         List<String> filter = aggTablePara.getFilter();
         for (String s : filter) {

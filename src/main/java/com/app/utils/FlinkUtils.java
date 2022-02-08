@@ -6,17 +6,18 @@ import com.app.udf.GetDictValueByKey;
 import com.app.udf.GetKey;
 import com.app.udf.GetValueByKey;
 import com.app.udtf.RowsToMap;
+import org.apache.flink.api.common.RuntimeExecutionMode;
+import org.apache.flink.configuration.CheckpointingOptions;
+import org.apache.flink.configuration.Configuration;
 import org.apache.flink.runtime.state.filesystem.FsStateBackend;
 import org.apache.flink.streaming.api.CheckpointingMode;
 import org.apache.flink.streaming.api.environment.CheckpointConfig;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
+import org.apache.flink.table.api.TableEnvironment;
 import org.apache.flink.types.Row;
 import org.apache.flink.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -87,7 +88,7 @@ public class FlinkUtils {
         //rocksdb 是否禁用
         if (mapFromJsonStr.containsKey(FlinkConstant.STATE_BACKEND_TYPE)) {
             Boolean rocksDBAbandon = Boolean.valueOf(mapFromJsonStr.get(FlinkConstant.STATE_BACKEND_TYPE).toString());
-            logger.info(LocalDateTime.now() + " rocksDBAbandon " + rocksDBAbandon);
+            logger.info(" rocksDBAbandon " + rocksDBAbandon);
             if (!rocksDBAbandon) {
                 streamEnv.setStateBackend(new FsStateBackend(FlinkConstant.STATE_BACKEND_DIR));
             }
@@ -95,8 +96,25 @@ public class FlinkUtils {
         //并行度设置
         if (mapFromJsonStr.containsKey(FlinkConstant.PARALLELISM_NAME)) {
             Integer numParall = Integer.valueOf(mapFromJsonStr.get(FlinkConstant.PARALLELISM_NAME).toString());
-            logger.info(LocalDateTime.now() + " numParall " + numParall);
+            logger.info(" numParall " + numParall);
             streamEnv.setParallelism(numParall);
+        }
+    }
+
+    public static void configConfiguration(Map<String, Object> mapFromJsonStr,  Configuration configuration) {
+        //rocksdb 是否禁用
+        if (mapFromJsonStr.containsKey(FlinkConstant.STATE_BACKEND_TYPE)) {
+            Boolean rocksDBAbandon = Boolean.valueOf(mapFromJsonStr.get(FlinkConstant.STATE_BACKEND_TYPE).toString());
+            logger.info(" rocksDBAbandon " + rocksDBAbandon);
+            if (!rocksDBAbandon) {
+                configuration.set(CheckpointingOptions.STATE_BACKEND, "rocksdb");
+                configuration.set(CheckpointingOptions.CHECKPOINTS_DIRECTORY, FlinkConstant.STATE_BACKEND_DIR);
+
+            }
+        }
+        //并行度设置
+        if (mapFromJsonStr.containsKey(FlinkConstant.PARALLELISM_NAME)) {
+            configuration.setString("parallelism.default", mapFromJsonStr.get(FlinkConstant.PARALLELISM_NAME).toString());
         }
     }
 
@@ -121,7 +139,7 @@ public class FlinkUtils {
      * @operate 注册函数
      * @date 2021/9/16 10:57
      */
-    public static void registerFunctionOfFlink(StreamTableEnvironment streamTableEnv, List<String> listSql) {
+    public static void registerFunctionOfFlink(TableEnvironment streamTableEnv, List<String> listSql) {
         ArrayList<String> udfList = FlinkConstant.UDF_LIST;
         for (String functionName : udfList) {
             switch (functionName) {
@@ -136,7 +154,7 @@ public class FlinkUtils {
                 case FlinkConstant.UDF_TO_MAP:
                     if (FlinkUtils.checkContainsOneFunction(listSql, FlinkConstant.UDF_TO_MAP)) {
                         logger.info("加载函数" + FlinkConstant.UDF_TO_MAP);
-                        streamTableEnv.registerFunction(FlinkConstant.UDF_TO_MAP, new RowsToMap());
+                        streamTableEnv.createTemporarySystemFunction(FlinkConstant.UDF_TO_MAP, new RowsToMap());
                     }
                     break;
                 case FlinkConstant.UDF_GET_KEY:
@@ -180,6 +198,20 @@ public class FlinkUtils {
             return FlinkConstant.BRACKET_LEFT + String.join(FlinkConstant.COMMA, list) + FlinkConstant.BRACKET_RIGHT;
         }
         return "";
+    }
+
+    /**
+     * @return org.apache.flink.api.common.RuntimeExecutionMode
+     * @author lcg
+     * @operate 获取运行模式
+     * @date 2022/2/8 11:31
+     */
+    public static RuntimeExecutionMode getRunTimeMode(Map<String, Object> mapFromJsonStr) {
+        if (mapFromJsonStr != null && mapFromJsonStr.containsKey(FlinkConstant.RUNTIME_MODE)) {
+            Boolean rocksDBAbandon = Boolean.valueOf(mapFromJsonStr.get(FlinkConstant.RUNTIME_MODE).toString());
+            return rocksDBAbandon ? RuntimeExecutionMode.STREAMING : RuntimeExecutionMode.BATCH;
+        }
+        return RuntimeExecutionMode.STREAMING;
     }
 
 }

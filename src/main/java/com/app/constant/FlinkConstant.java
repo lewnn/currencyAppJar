@@ -10,6 +10,12 @@ public abstract class FlinkConstant {
      * STATE_BACKEND类型rocksdb是否启用
      */
     public final static String STATE_BACKEND_TYPE = "rocksdbEnabled";
+
+    /**
+     * 执行模式
+     */
+    public final static String RUNTIME_MODE = "runtimeMode";
+
     /**
      * 并行度名称
      */
