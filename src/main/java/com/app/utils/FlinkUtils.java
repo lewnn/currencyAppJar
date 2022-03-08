@@ -14,6 +14,7 @@ import org.apache.flink.streaming.api.CheckpointingMode;
 import org.apache.flink.streaming.api.environment.CheckpointConfig;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.TableEnvironment;
+import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import org.apache.flink.types.Row;
 import org.apache.flink.util.StringUtils;
 import org.slf4j.Logger;
@@ -154,7 +155,11 @@ public class FlinkUtils {
                 case FlinkConstant.UDF_TO_MAP:
                     if (FlinkUtils.checkContainsOneFunction(listSql, FlinkConstant.UDF_TO_MAP)) {
                         logger.info("加载函数" + FlinkConstant.UDF_TO_MAP);
-                        streamTableEnv.createTemporarySystemFunction(FlinkConstant.UDF_TO_MAP, new RowsToMap());
+                        if(streamTableEnv instanceof StreamTableEnvironment){
+                            ((StreamTableEnvironment)streamTableEnv).registerFunction(FlinkConstant.UDF_TO_MAP, new RowsToMap());
+                        }else {
+                            throw new RuntimeException("批模式暂不支持" + FlinkConstant.UDF_TO_MAP + "函数，请转为流模式");
+                        }
                     }
                     break;
                 case FlinkConstant.UDF_GET_KEY:
@@ -211,7 +216,7 @@ public class FlinkUtils {
             Boolean rocksDBAbandon = Boolean.valueOf(mapFromJsonStr.get(FlinkConstant.RUNTIME_MODE).toString());
             return rocksDBAbandon ? RuntimeExecutionMode.STREAMING : RuntimeExecutionMode.BATCH;
         }
-        return RuntimeExecutionMode.STREAMING;
+        return RuntimeExecutionMode.BATCH;
     }
 
 }

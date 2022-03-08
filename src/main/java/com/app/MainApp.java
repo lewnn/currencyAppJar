@@ -69,7 +69,8 @@ public class MainApp {
         Map<String, Object> mapFromJsonStr = FlinkUtils.getMapFromJsonStr(envConfig);
         FlinkUtils.configEnvPara(mapFromJsonStr, streamEnv);
         TableEnvironment streamTableEnv = StreamTableEnvironment.create(streamEnv);
-        logger.info(" 参数" + mapFromJsonStr.keySet());
+
+        logger.info(" 参数 " + mapFromJsonStr);
         RuntimeExecutionMode runTimeMode = FlinkUtils.getRunTimeMode(mapFromJsonStr);
         if(runTimeMode.equals(RuntimeExecutionMode.BATCH)){
             TableConfig preConfig = streamTableEnv.getConfig();

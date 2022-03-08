@@ -11,6 +11,9 @@ public class GetValueByKey extends ScalarFunction {
     private Map<String, Map<String, String>> defaultMap = new ConcurrentHashMap<>();
 
     public String eval(String keyInfo, String tableName, String codeColumn, String valueColumn) {
+        if(keyInfo == null){
+            return "";
+        }
         return eval(keyInfo, tableName, codeColumn, valueColumn, null, null);
     }
 
@@ -19,6 +22,9 @@ public class GetValueByKey extends ScalarFunction {
         if (tableInfo.isEmpty()) {
             tableInfo = loadTableInfo(tableName, dictValue, codeColumn, valueColumn, dictColumn);
             defaultMap.put(tableName, tableInfo);
+        }
+        if(keyInfo == null){
+            return "";
         }
         return tableInfo.getOrDefault(keyInfo, "");
     }
