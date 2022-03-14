@@ -2,6 +2,7 @@ package com.app.utils;
 
 import com.app.MainApp;
 import com.app.constant.FlinkConstant;
+import com.app.udf.GetDayGap;
 import com.app.udf.GetDictValueByKey;
 import com.app.udf.GetKey;
 import com.app.udf.GetValueByKey;
@@ -172,6 +173,12 @@ public class FlinkUtils {
                     if (FlinkUtils.checkContainsOneFunction(listSql, FlinkConstant.UDF_TO_GET_VALUE_BY_KEY)) {
                         logger.info("加载函数" + FlinkConstant.UDF_TO_GET_VALUE_BY_KEY);
                         streamTableEnv.createTemporarySystemFunction(FlinkConstant.UDF_TO_GET_VALUE_BY_KEY, GetValueByKey.class);
+                    }
+                    break;
+                case FlinkConstant.UDF_TO_GET_DAY_GAP:
+                    if (FlinkUtils.checkContainsOneFunction(listSql, FlinkConstant.UDF_TO_GET_DAY_GAP)) {
+                        logger.info("加载函数" + FlinkConstant.UDF_TO_GET_DAY_GAP);
+                        streamTableEnv.createTemporarySystemFunction(FlinkConstant.UDF_TO_GET_DAY_GAP, GetDayGap.class);
                     }
                     break;
             }

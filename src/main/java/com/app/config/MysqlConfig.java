@@ -4,8 +4,8 @@ public abstract class MysqlConfig {
     /**
      * mysql的ip
      */
-    public final static  String MYSQL_IP = "10.1.51.25";
-//    public final static  String MYSQL_IP = "10.10.10.206"; //东阿
+//    public final static  String MYSQL_IP = "10.1.51.25";
+    public final static  String MYSQL_IP = "10.10.10.206"; //东阿
 
 
     /**
