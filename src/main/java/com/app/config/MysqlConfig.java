@@ -4,8 +4,9 @@ public abstract class MysqlConfig {
     /**
      * mysql的ip
      */
-//    public final static  String MYSQL_IP = "10.1.51.25";
-    public final static  String MYSQL_IP = "10.10.10.206"; //东阿
+    public final static  String MYSQL_IP = "10.1.51.25";
+//    public final static  String MYSQL_IP = "10.10.10.206"; //东阿
+//    public final static  String MYSQL_IP = "10.10.21.18"; //聊城二院
 
 
     /**
@@ -23,7 +24,7 @@ public abstract class MysqlConfig {
     /**
      * 密码
      */
-    public final static String MYSQL_PASSWORD = "Dareway@2020";
+    public final static String MYSQL_PASSWORD = "dfly";
     /**
      * 驱动
      */

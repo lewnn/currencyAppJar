@@ -108,6 +108,10 @@ public abstract class FlinkConstant {
         return "SELECT  dfs.sql_text ,dt.env_config    FROM      dlink_flink_sql dfs LEFT JOIN dlink_trans  dt on dfs.trans_id = dt.id    WHERE     dfs.enabled = 1    AND dfs.id = " + id + "    ORDER BY       sql_index   ";
     }
 
+    public static String getExecuteAllSqlConfig() {
+        return " SELECT  name ,connect_info from dbase_database WHERE connect_info  is not NULL  and connect_info != '' ";
+    }
+
     public static String getDictExecuteSql(String dictStr) {
         return sqlQueryMysql + " where source_dict in " + dictStr + " or target_dict in " + dictStr;
     }

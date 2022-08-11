@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,10 +19,9 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author lcg
  * @operate 获取执行的sql
  * @date 2021/9/16 9:46
- * @return
  */
 public class ExecuteSqlProcess {
-    private static Logger logger = LoggerFactory.getLogger(ExecuteSqlProcess.class);
+    private static final Logger logger = LoggerFactory.getLogger(ExecuteSqlProcess.class);
 
     /**
      * @return java.lang.String
@@ -31,17 +31,18 @@ public class ExecuteSqlProcess {
      */
     public static String getExecuteSql(String[] ids, List<String> flinkSqlList) throws IOException {
         String envConfig = "";
-        for (int i = 0; i < ids.length; i++) {
-            if (ids[i] != null && ids[i].length() > 0) {
+        HashMap<String, String> configMap = getExecuteSqlConfig();
+        for (String id : ids) {
+            if (id != null && id.length() > 0) {
                 Connection con = ConUtil.getConn(MysqlConfig.DRIVER, MysqlConfig.URL, MysqlConfig.MYSQL_USER, MysqlConfig.MYSQL_PASSWORD);
-                Statement stmt = null;
-                ResultSet ret = null;
+                Statement stmt;
+                ResultSet ret;
                 try {
                     stmt = con.createStatement();
-                    ret = stmt.executeQuery(FlinkConstant.getExecuteSql(ids[i]));
+                    ret = stmt.executeQuery(FlinkConstant.getExecuteSql(id));
                     if (ret.next()) {
                         do {
-                            flinkSqlList.add(ret.getString(1));
+                            flinkSqlList.add(SqlInterParseHelper.getInstance(configMap).parseOutOneSql(ret.getString(1)));
                             String config = ret.getString(2);
                             if (config != null && config.length() != 0) {
                                 envConfig = config;
@@ -51,8 +52,10 @@ public class ExecuteSqlProcess {
                         ConUtil.close(con, stmt, ret);
                         return envConfig;
                     }
+
+
                 } catch (SQLException e1) {
-                    logger.error( "任务异常");
+                    logger.error("任务异常");
                     logger.error("执行sql失败", e1);
                     logger.error("↑↑↑↑↑↑↑↑↑  任务异常结束 end ↑↑↑↑↑↑");
                 }
@@ -62,7 +65,6 @@ public class ExecuteSqlProcess {
     }
 
     /**
-     * @return void
      * @author lcg
      * @operate 获取字典函数的数据
      * @date 2021/9/17 9:13
@@ -103,7 +105,7 @@ public class ExecuteSqlProcess {
         Statement statement = null;
         ResultSet resultSet = null;
         try {
-            String mysqlDictQuery = "";
+            String mysqlDictQuery;
             if (dictValue != null && dictColumn != null && !dictValue.isEmpty() && !dictColumn.isEmpty()) {
                 mysqlDictQuery = FlinkConstant.sqlQueryMysqlDimTableWithWhere;
                 mysqlDictQuery = String.format(mysqlDictQuery, codeColumn, valueColumn, tableName, dictColumn, dictValue);
@@ -126,4 +128,27 @@ public class ExecuteSqlProcess {
         return res;
     }
 
+    /**
+     *
+     * @author lcg
+     * @operate 获取config
+     * @date 2022/8/11 13:58
+     * @return java.util.HashMap<java.lang.String,java.lang.String>
+     */
+    public static HashMap<String, String> getExecuteSqlConfig() {
+        HashMap<String, String> res = new HashMap<>();
+       try {
+           Connection con = ConUtil.getConn(MysqlConfig.DRIVER, MysqlConfig.URL, MysqlConfig.MYSQL_USER, MysqlConfig.MYSQL_PASSWORD);
+           Statement statement = con.createStatement();
+           ResultSet resultSet = statement.executeQuery(FlinkConstant.getExecuteAllSqlConfig());
+           while (resultSet.next()){
+               res.put(resultSet.getString("name") == null ? "" : resultSet.getString("name"),
+                       resultSet.getString("connect_info") == null ? "" : resultSet.getString("connect_info"));
+           }
+           ConUtil.close(con, statement, resultSet);
+       }catch (IOException | SQLException e){
+          logger.error("获取config是出错",e);
+       }
+        return res;
+    }
 }
