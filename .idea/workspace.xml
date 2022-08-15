@@ -9,16 +9,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="aa89a064-89df-4c51-9dd2-b37b839d1293" name="Default Changelist" comment="getvalue函数">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/qaplug_profiles.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/app/utils/SqlInterParseHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="aa89a064-89df-4c51-9dd2-b37b839d1293" name="Default Changelist" comment="111">
+      <change afterPath="$PROJECT_DIR$/src/test/java/co/test/Demo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/config/MysqlConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/config/MysqlConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/constant/FlinkConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/constant/FlinkConstant.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/app/utils/ExecuteSqlProcess.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/utils/ExecuteSqlProcess.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/utils/SqlInterParseHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/utils/SqlInterParseHelper.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,13 +81,13 @@
       <recent name="com.app.utils" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Test">
-    <configuration name="ExecuteSqlProcess" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.app.utils.ExecuteSqlProcess" />
+  <component name="RunManager" selected="Application.Demo">
+    <configuration name="Demo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="co.test.Demo" />
       <module name="currencyAppJar" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.app.utils.*" />
+          <option name="PATTERN" value="co.test.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -100,13 +95,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MainApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.app.MainApp" />
+    <configuration name="ExecuteSqlProcess" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.app.utils.ExecuteSqlProcess" />
       <module name="currencyAppJar" />
-      <option name="PROGRAM_PARAMETERS" value="17" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.app.*" />
+          <option name="PATTERN" value="com.app.utils.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -147,24 +141,26 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Demo" />
         <item itemvalue="Application.Test" />
         <item itemvalue="Application.ReplaceWarp" />
         <item itemvalue="Application.ExecuteSqlProcess" />
         <item itemvalue="Application.Test2" />
-        <item itemvalue="Application.MainApp" />
       </list>
     </recent_temporary>
   </component>
@@ -240,7 +236,8 @@
       <workItem from="1647500808695" duration="663000" />
       <workItem from="1648800581480" duration="10302000" />
       <workItem from="1659504799065" duration="82000" />
-      <workItem from="1660196088351" duration="4863000" />
+      <workItem from="1660196088351" duration="6490000" />
+      <workItem from="1660542483008" duration="4351000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <created>1636960539098</created>
@@ -291,7 +288,14 @@
       <option name="project" value="LOCAL" />
       <updated>1647218782543</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="111">
+      <created>1660202088916</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1660202088916</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -344,7 +348,8 @@
     <MESSAGE value="2" />
     <MESSAGE value="e" />
     <MESSAGE value="getvalue函数" />
-    <option name="LAST_COMMIT_MESSAGE" value="getvalue函数" />
+    <MESSAGE value="111" />
+    <option name="LAST_COMMIT_MESSAGE" value="111" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

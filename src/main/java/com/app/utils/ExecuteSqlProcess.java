@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,7 @@ public class ExecuteSqlProcess {
     public static String getExecuteSql(String[] ids, List<String> flinkSqlList) throws IOException {
         String envConfig = "";
         HashMap<String, String> configMap = getExecuteSqlConfig();
+        List<String> flinkSqlListTemp = new ArrayList<>();
         for (String id : ids) {
             if (id != null && id.length() > 0) {
                 Connection con = ConUtil.getConn(MysqlConfig.DRIVER, MysqlConfig.URL, MysqlConfig.MYSQL_USER, MysqlConfig.MYSQL_PASSWORD);
@@ -42,7 +44,7 @@ public class ExecuteSqlProcess {
                     ret = stmt.executeQuery(FlinkConstant.getExecuteSql(id));
                     if (ret.next()) {
                         do {
-                            flinkSqlList.add(SqlInterParseHelper.getInstance(configMap).parseOutOneSql(ret.getString(1)));
+                            flinkSqlListTemp.add(ret.getString(1));
                             String config = ret.getString(2);
                             if (config != null && config.length() != 0) {
                                 envConfig = config;
@@ -61,6 +63,9 @@ public class ExecuteSqlProcess {
                 }
             }
         }
+
+        List<String> strings = SqlInterParseHelper.getInstance(flinkSqlListTemp, configMap).parseOutSqlList();
+        flinkSqlList.addAll(strings);
         return envConfig;
     }
 

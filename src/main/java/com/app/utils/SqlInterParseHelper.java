@@ -2,6 +2,8 @@ package com.app.utils;
 
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -10,6 +12,7 @@ import java.util.stream.Collectors;
 
 
 public class SqlInterParseHelper {
+    private static final Logger log = LoggerFactory.getLogger(SqlInterParseHelper.class);
 
     public final static String DEFINED_PARA = ":=";
     private final List<String> inSqlList; //传入的sql集合
@@ -39,9 +42,18 @@ public class SqlInterParseHelper {
         return outList;
     }
 
-    //处理单条sql
+    /**
+     *
+     * @author lcg
+     * @operate 处理单条sql
+     * 1. 需传入paraMap
+     * 2. 不能含有赋值表达式 如name:='zs';insert into ...
+     * 3. 只能单条sql，不能带有分号;
+     * @date 2022/8/15 14:48
+     * @return java.lang.String
+     */
     public String parseOutOneSql(String sql) {
-        return parseTemplate(sql, this.paraMap).replaceAll("[\t\n\r]", "");
+        return parseTemplate(sql, this.paraMap);
     }
 
     /**
