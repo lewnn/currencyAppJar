@@ -1,6 +1,9 @@
 package com.app.utils;
 
 
+import com.app.config.ExcutorConfig;
+import com.app.constant.FlinkConstant;
+import com.app.enums.DorisVersionEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +35,7 @@ public class SqlInterParseHelper {
             List<String> sqlRes = new ArrayList<>();
             for (String sql : split) {
                 if (!sql.contains(DEFINED_PARA) && !sql.trim().isEmpty()) {
-                    sqlRes.add(parseOutOneSql(sql));
+                    sqlRes.add(enhanceSql(parseOutOneSql(sql)));
                 }
             }
             if (!sqlRes.isEmpty()) {
@@ -43,18 +46,40 @@ public class SqlInterParseHelper {
     }
 
     /**
-     *
+     * @return java.lang.String
      * @author lcg
      * @operate 处理单条sql
      * 1. 需传入paraMap
      * 2. 不能含有赋值表达式 如name:='zs';insert into ...
      * 3. 只能单条sql，不能带有分号;
      * @date 2022/8/15 14:48
-     * @return java.lang.String
      */
     public String parseOutOneSql(String sql) {
         return parseTemplate(sql, this.paraMap);
     }
+
+
+    /**
+     * @author lcg
+     * @operate doris 从0.15 升级到 1.1.1 后 sql增强
+     * 1. 主要替换sink.batch.size 为 doris.batch.size
+     * 2. sink.label-prefix设置不存在时 把 sink.enable-2pc设置为 false
+     * @date 2022/8/16 16:13
+     */
+    public String enhanceSql(String sql) {
+        if (ExcutorConfig.DORIS_VERSION.equals(DorisVersionEnum.V1_1_1)
+                && sql.replace(" ", "").toUpperCase().startsWith(FlinkConstant.CREATE_TABLE)
+                && sql.replace(" ", "").toUpperCase().contains(FlinkConstant.CONNECTOR)) {
+            // 1. 主要替换sink.batch.size 为 doris.batch.size
+            sql = sql.replace("sink.batch.size", "doris.batch.size");
+            // 2. sink.label-prefix设置不存在时 把 sink.enable-2pc设置为 false
+            if (!sql.contains("sink.label-prefix")) {
+                sql = sql.substring(0, sql.lastIndexOf(")")) + ", 'sink.enable-2pc'='false')";
+            }
+        }
+        return sql;
+    }
+
 
     /**
      * @author lcg
@@ -79,13 +104,13 @@ public class SqlInterParseHelper {
 
     private SqlInterParseHelper(List<String> inSqlList, Map<String, String> paraMap) {
         this.inSqlList = inSqlList;
-        this.paraMap = paraMap == null ? new HashMap<>():paraMap;
+        this.paraMap = paraMap == null ? new HashMap<>() : paraMap;
         parseParaMap();
     }
 
     private SqlInterParseHelper(Map<String, String> paraMap) {
         this.inSqlList = new ArrayList<>();
-        this.paraMap = paraMap == null ? new HashMap<>():paraMap;
+        this.paraMap = paraMap == null ? new HashMap<>() : paraMap;
         parseParaMap();
     }
 

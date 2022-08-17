@@ -1,7 +1,7 @@
 package com.app.utils;
 
 import com.app.MainApp;
-import com.app.config.MysqlConfig;
+import com.app.config.ExcutorConfig;
 import com.app.constant.FlinkConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +36,7 @@ public class ExecuteSqlProcess {
         List<String> flinkSqlListTemp = new ArrayList<>();
         for (String id : ids) {
             if (id != null && id.length() > 0) {
-                Connection con = ConUtil.getConn(MysqlConfig.DRIVER, MysqlConfig.URL, MysqlConfig.MYSQL_USER, MysqlConfig.MYSQL_PASSWORD);
+                Connection con = ConUtil.getConn(ExcutorConfig.DRIVER, ExcutorConfig.URL, ExcutorConfig.MYSQL_USER, ExcutorConfig.MYSQL_PASSWORD);
                 Statement stmt;
                 ResultSet ret;
                 try {
@@ -63,9 +63,7 @@ public class ExecuteSqlProcess {
                 }
             }
         }
-
-        List<String> strings = SqlInterParseHelper.getInstance(flinkSqlListTemp, configMap).parseOutSqlList();
-        flinkSqlList.addAll(strings);
+        flinkSqlList.addAll(SqlInterParseHelper.getInstance(flinkSqlListTemp, configMap).parseOutSqlList());
         return envConfig;
     }
 
@@ -83,7 +81,7 @@ public class ExecuteSqlProcess {
             if (!dictStr.isEmpty()) {
                 mysqlDictQuery = FlinkConstant.getDictExecuteSql(dictStr);
             }
-            con = ConUtil.getConn(MysqlConfig.DRIVER, MysqlConfig.URL, MysqlConfig.MYSQL_USER, MysqlConfig.MYSQL_PASSWORD);
+            con = ConUtil.getConn(ExcutorConfig.DRIVER, ExcutorConfig.URL, ExcutorConfig.MYSQL_USER, ExcutorConfig.MYSQL_PASSWORD);
             statement = con.createStatement();
             resultSet = statement.executeQuery(mysqlDictQuery);
             while (resultSet.next()) {
@@ -118,7 +116,7 @@ public class ExecuteSqlProcess {
                 mysqlDictQuery = FlinkConstant.sqlQueryMysqlDimTable;
                 mysqlDictQuery = String.format(mysqlDictQuery, codeColumn, valueColumn, tableName);
             }
-            con = ConUtil.getConn(MysqlConfig.DRIVER, MysqlConfig.DIM_URL, MysqlConfig.MYSQL_USER, MysqlConfig.MYSQL_PASSWORD);
+            con = ConUtil.getConn(ExcutorConfig.DRIVER, ExcutorConfig.DIM_URL, ExcutorConfig.MYSQL_USER, ExcutorConfig.MYSQL_PASSWORD);
             statement = con.createStatement();
             resultSet = statement.executeQuery(mysqlDictQuery);
             while (resultSet.next()) {
@@ -143,7 +141,7 @@ public class ExecuteSqlProcess {
     public static HashMap<String, String> getExecuteSqlConfig() {
         HashMap<String, String> res = new HashMap<>();
        try {
-           Connection con = ConUtil.getConn(MysqlConfig.DRIVER, MysqlConfig.URL, MysqlConfig.MYSQL_USER, MysqlConfig.MYSQL_PASSWORD);
+           Connection con = ConUtil.getConn(ExcutorConfig.DRIVER, ExcutorConfig.URL, ExcutorConfig.MYSQL_USER, ExcutorConfig.MYSQL_PASSWORD);
            Statement statement = con.createStatement();
            ResultSet resultSet = statement.executeQuery(FlinkConstant.getExecuteAllSqlConfig());
            while (resultSet.next()){

@@ -1,14 +1,16 @@
 package com.app.config;
 
-public abstract class MysqlConfig {
+import com.app.enums.DorisVersionEnum;
+
+public abstract class ExcutorConfig {
     /**
      * mysql的ip
      */
-    public final static  String MYSQL_IP = "10.1.51.25";
-//    public final static  String MYSQL_IP = "10.10.10.206"; //东阿
+//    public final static  String MYSQL_IP = "10.1.51.25";
+    public final static  String MYSQL_IP = "10.10.10.206"; //东阿
 //    public final static  String MYSQL_IP = "10.10.21.18"; //聊城二院
 
-
+    public final static DorisVersionEnum DORIS_VERSION = DorisVersionEnum.V1_1_1;
     /**
      * 用户
      */
@@ -24,7 +26,7 @@ public abstract class MysqlConfig {
     /**
      * 密码
      */
-    public final static String MYSQL_PASSWORD = "dfly";
+    public final static String MYSQL_PASSWORD = "Dareway@2020";
     /**
      * 驱动
      */

@@ -1,6 +1,6 @@
 package com.app.constant;
 
-import com.app.config.MysqlConfig;
+import com.app.config.ExcutorConfig;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -79,7 +79,7 @@ public abstract class FlinkConstant {
     /**
      * 创建flink 连接参数
      */
-    public static final String sqlCreateTb = "CREATE TABLE DICT_MAPPING ( dict_version STRING, source_code STRING, source_value STRING, source_dict STRING, target_code STRING, target_value STRING ) WITH ( 'connector' = 'jdbc', 'url' = 'jdbc:mysql://" + MysqlConfig.MYSQL_IP + ":3306/dfly', 'table-name' = 'dlink_dict_mapping', 'username' = '" + MysqlConfig.MYSQL_USER + "', 'password' = '" + MysqlConfig.MYSQL_PASSWORD + "' )";
+    public static final String sqlCreateTb = "CREATE TABLE DICT_MAPPING ( dict_version STRING, source_code STRING, source_value STRING, source_dict STRING, target_code STRING, target_value STRING ) WITH ( 'connector' = 'jdbc', 'url' = 'jdbc:mysql://" + ExcutorConfig.MYSQL_IP + ":3306/dfly', 'table-name' = 'dlink_dict_mapping', 'username' = '" + ExcutorConfig.MYSQL_USER + "', 'password' = '" + ExcutorConfig.MYSQL_PASSWORD + "' )";
     /**
      * 查询相关字段
      */
@@ -103,6 +103,18 @@ public abstract class FlinkConstant {
      * 创建AGG table的创建语句
      */
     public static final String CREATE_AGG_TABLE = "CREATEAGGTABLE";
+
+
+    /**
+     * 创建table的创建语句
+     */
+    public static final String CREATE_TABLE = "CREATETABLE";
+
+    /**
+     * doris的连接语句
+     */
+    public static final String CONNECTOR = "'CONNECTOR'='DORIS'";
+
 
     public static String getExecuteSql(String id) {
         return "SELECT  dfs.sql_text ,dt.env_config    FROM      dlink_flink_sql dfs LEFT JOIN dlink_trans  dt on dfs.trans_id = dt.id    WHERE     dfs.enabled = 1    AND dfs.id = " + id + "    ORDER BY       sql_index   ";

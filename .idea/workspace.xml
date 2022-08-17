@@ -10,10 +10,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aa89a064-89df-4c51-9dd2-b37b839d1293" name="Default Changelist" comment="111">
-      <change afterPath="$PROJECT_DIR$/src/test/java/co/test/Demo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/app/enums/DorisVersionEnum.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/config/MysqlConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/config/ExcutorConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/constant/FlinkConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/constant/FlinkConstant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/utils/ConUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/utils/ConUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/app/utils/ExecuteSqlProcess.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/utils/ExecuteSqlProcess.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/app/utils/SqlInterParseHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/utils/SqlInterParseHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/co/test/Demo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/co/test/Demo.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +33,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -141,15 +148,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -237,7 +242,8 @@
       <workItem from="1648800581480" duration="10302000" />
       <workItem from="1659504799065" duration="82000" />
       <workItem from="1660196088351" duration="6490000" />
-      <workItem from="1660542483008" duration="4351000" />
+      <workItem from="1660542483008" duration="12782000" />
+      <workItem from="1660705931858" duration="2173000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <created>1636960539098</created>
@@ -295,7 +301,14 @@
       <option name="project" value="LOCAL" />
       <updated>1660202088916</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="111">
+      <created>1660552604578</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1660552604578</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -329,16 +342,36 @@
             </State>
           </value>
         </entry>
+        <entry key="92e619a6-f03b-41b4-b723-87757ee51118">
+          <value>
+            <State>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="structure">
+                    <value>
+                      <list>
+                        <option value="dir:F:/idea_files/demo_files/currencyAppJar/src" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
         <entry key="MAIN">
           <value>
             <State />
           </value>
         </entry>
-      </map>
-    </option>
-    <option name="OPEN_GENERIC_TABS">
-      <map>
-        <entry key="1" value="TOOL_WINDOW" />
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
