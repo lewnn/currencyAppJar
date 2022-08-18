@@ -116,6 +116,18 @@ public abstract class FlinkConstant {
     public static final String CONNECTOR = "'CONNECTOR'='DORIS'";
 
 
+    /**
+     * doris的连接语句 sink配置
+     */
+    public static final String JSON_SINK_V1_1_1 = "sink.properties.format";
+
+    /**
+     * doris的连接语句 sink配置
+     */
+    public static final String JSON_SINK_LINE_V1_1_1 = "sink.properties.read_json_by_line";
+
+    public static final String JSON_SINK_STRIP_OUT_JSON_ARR_V1_1_1 = "sink.properties.strip_outer_array";
+
     public static String getExecuteSql(String id) {
         return "SELECT  dfs.sql_text ,dt.env_config    FROM      dlink_flink_sql dfs LEFT JOIN dlink_trans  dt on dfs.trans_id = dt.id    WHERE     dfs.enabled = 1    AND dfs.id = " + id + "    ORDER BY       sql_index   ";
     }

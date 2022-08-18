@@ -64,6 +64,7 @@ public class SqlInterParseHelper {
      * @operate doris 从0.15 升级到 1.1.1 后 sql增强
      * 1. 主要替换sink.batch.size 为 doris.batch.size
      * 2. sink.label-prefix设置不存在时 把 sink.enable-2pc设置为 false
+     * 3. JSON类型sink增强
      * @date 2022/8/16 16:13
      */
     public String enhanceSql(String sql) {
@@ -75,6 +76,14 @@ public class SqlInterParseHelper {
             // 2. sink.label-prefix设置不存在时 把 sink.enable-2pc设置为 false
             if (!sql.contains("sink.label-prefix")) {
                 sql = sql.substring(0, sql.lastIndexOf(")")) + ", 'sink.enable-2pc'='false')";
+            }
+            // 3. JSON类型sink增强
+            if (sql.contains(FlinkConstant.JSON_SINK_V1_1_1) && !sql.contains(FlinkConstant.JSON_SINK_LINE_V1_1_1)) {
+                if (sql.contains(FlinkConstant.JSON_SINK_STRIP_OUT_JSON_ARR_V1_1_1)) {
+                    sql = sql.replace(FlinkConstant.JSON_SINK_STRIP_OUT_JSON_ARR_V1_1_1, FlinkConstant.JSON_SINK_LINE_V1_1_1);
+                } else {
+                    sql = sql.substring(0, sql.lastIndexOf(")")) + ", 'sink.properties.read_json_by_line' = 'true')";
+                }
             }
         }
         return sql;
