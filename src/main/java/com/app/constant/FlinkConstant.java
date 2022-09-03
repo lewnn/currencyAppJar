@@ -136,6 +136,10 @@ public abstract class FlinkConstant {
         return " SELECT  name ,connect_info from dbase_database WHERE connect_info  is not NULL  and connect_info != '' ";
     }
 
+    public static String getTableSchemaSql(String sqlId) {
+//        return " SELECT  dc.name,`data_type` dt, dt2.name as tn, dc.data_length  dl,dc.data_scale ds from dlink_columns dc , dlink_flink_sql dfs,dlink_trans  dt ,dlink_tables dt2  WHERE  dc.table_id=dt.table_id and dt.id = dfs.trans_id and dt2.id=dt.table_id and dfs.id=" + sqlId;
+        return "SELECT  dc.name,`data_type` dt, dt2.name as tn, dc.data_length  dl,dc.data_scale ds, dc.is_pk pk from dlink_columns dc , dlink_flink_sql dfs,dlink_trans  dt ,dlink_tables dt2  WHERE  dc.table_id=dt.table_id and dt.id = dfs.trans_id and dt2.id=dt.table_id and dfs.id="+ sqlId+" order by dc.is_pk  desc";
+    }
     public static String getDictExecuteSql(String dictStr) {
         return sqlQueryMysql + " where source_dict in " + dictStr + " or target_dict in " + dictStr;
     }
@@ -157,5 +161,11 @@ public abstract class FlinkConstant {
      * isnert语句的其实判断
      */
     public static final String INSET_SQL = "INSERTINTO";
+
+
+    /**
+     * isnert语句的其实判断
+     */
+    public static final String CDC_SQL = "CDC";
 
 }

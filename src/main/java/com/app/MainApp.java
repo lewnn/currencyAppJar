@@ -3,6 +3,7 @@ package com.app;
 import com.app.check.FlinkSqlCheck;
 import com.app.constant.FlinkConstant;
 import com.app.entity.AggTablePara;
+import com.app.entity.DataType;
 import com.app.utils.ExecuteSqlProcess;
 import com.app.utils.FlinkUtils;
 import org.apache.flink.api.common.RuntimeExecutionMode;
@@ -15,8 +16,11 @@ import org.apache.flink.table.api.*;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
  * @author lcg
@@ -30,9 +34,11 @@ public class MainApp {
 
     public static volatile HashSet<Tuple6<String, String, String, String, String, String>> allDataSet = new HashSet<>();
 
+    public static ConcurrentHashMap<String, List<DataType>> dataSchema = new ConcurrentHashMap<>();
+
     // 主方法 入口
     public static void main(String[] args) throws IOException {
-        logger.info( "任务开始");
+        logger.info("任务开始");
         ParameterTool parameters = ParameterTool.fromArgs(args);
         String idParas = parameters.get("id", null);
         String envConfig = "";
@@ -43,6 +49,7 @@ public class MainApp {
             String[] ids = idParas.split(",");
             envConfig = ExecuteSqlProcess.getExecuteSql(ids, flinkSqlList);
             boolean sqlMultiInsert = FlinkSqlCheck.getSqlMultiInsertMode(flinkSqlList);
+            boolean cdcChain = FlinkSqlCheck.getSqlCdcChainMode(flinkSqlList);
             if (flinkSqlList.isEmpty()) {
                 return;
             } else if (sqlMultiInsert) {
@@ -50,10 +57,12 @@ public class MainApp {
                 List<String> sinkSql = new ArrayList<>();
                 FlinkSqlCheck.getSqlMultiInsertAndCreate(flinkSqlList, sourceSql, sinkSql);
                 executeSql(sourceSql, sinkSql, envConfig);
-                logger.info( "合并模式任务提交结束");
+                logger.info("合并模式任务提交结束");
+            } else if (cdcChain) {
+
             } else {
                 executeSql(flinkSqlList, new ArrayList<>(), envConfig);
-                logger.info( "任务结束");
+                logger.info("任务结束");
             }
         }
     }
@@ -72,7 +81,7 @@ public class MainApp {
 
         logger.info(" 参数 " + mapFromJsonStr);
         RuntimeExecutionMode runTimeMode = FlinkUtils.getRunTimeMode(mapFromJsonStr);
-        if(runTimeMode.equals(RuntimeExecutionMode.BATCH)){
+        if (runTimeMode.equals(RuntimeExecutionMode.BATCH)) {
             TableConfig preConfig = streamTableEnv.getConfig();
             logger.info("执行模式已切换至【TableEnvironment】【BatchMode】");
             Configuration configuration = preConfig.getConfiguration();
@@ -97,14 +106,14 @@ public class MainApp {
             } else {
                 return;
             }
-            if(!sinkSql.isEmpty()){
+            if (!sinkSql.isEmpty()) {
                 for (String sink : sinkSql) {
                     statementSet.addInsertSql(sink);
                 }
                 statementSet.execute();
             }
         } catch (Exception e) {
-            logger.error("任务异常",e);
+            logger.error("任务异常", e);
         }
     }
 

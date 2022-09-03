@@ -3,18 +3,18 @@ package com.app.utils;
 import com.app.MainApp;
 import com.app.config.ExcutorConfig;
 import com.app.constant.FlinkConstant;
+import com.app.entity.DataType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
  * @author lcg
@@ -132,26 +132,47 @@ public class ExecuteSqlProcess {
     }
 
     /**
-     *
+     * @return java.util.HashMap<java.lang.String, java.lang.String>
      * @author lcg
      * @operate 获取config
      * @date 2022/8/11 13:58
-     * @return java.util.HashMap<java.lang.String,java.lang.String>
      */
     public static HashMap<String, String> getExecuteSqlConfig() {
         HashMap<String, String> res = new HashMap<>();
-       try {
-           Connection con = ConUtil.getConn(ExcutorConfig.DRIVER, ExcutorConfig.URL, ExcutorConfig.MYSQL_USER, ExcutorConfig.MYSQL_PASSWORD);
-           Statement statement = con.createStatement();
-           ResultSet resultSet = statement.executeQuery(FlinkConstant.getExecuteAllSqlConfig());
-           while (resultSet.next()){
-               res.put(resultSet.getString("name") == null ? "" : resultSet.getString("name"),
-                       resultSet.getString("connect_info") == null ? "" : resultSet.getString("connect_info"));
-           }
-           ConUtil.close(con, statement, resultSet);
-       }catch (IOException | SQLException e){
-          logger.error("获取config是出错",e);
-       }
+        try {
+            Connection con = ConUtil.getConn(ExcutorConfig.DRIVER, ExcutorConfig.URL, ExcutorConfig.MYSQL_USER, ExcutorConfig.MYSQL_PASSWORD);
+            Statement statement = con.createStatement();
+            ResultSet resultSet = statement.executeQuery(FlinkConstant.getExecuteAllSqlConfig());
+            while (resultSet.next()) {
+                res.put(resultSet.getString("name") == null ? "" : resultSet.getString("name"),
+                        resultSet.getString("connect_info") == null ? "" : resultSet.getString("connect_info"));
+            }
+            ConUtil.close(con, statement, resultSet);
+        } catch (IOException | SQLException e) {
+            logger.error("获取config是出错", e);
+        }
         return res;
+    }
+
+    public static void loadSchema(String id) {
+        try {
+            Connection con = ConUtil.getConn(ExcutorConfig.DRIVER, ExcutorConfig.URL, ExcutorConfig.MYSQL_USER, ExcutorConfig.MYSQL_PASSWORD);
+            Statement statement = con.createStatement();
+            ResultSet resultSet = statement.executeQuery(FlinkConstant.getTableSchemaSql(id));
+            List<DataType> res = new ArrayList<>();
+            String tableName = "";
+            while (resultSet.next()) {
+                res.add(new DataType(resultSet.getString("name"),
+                        resultSet.getString("dt"),
+                        resultSet.getInt("pk"))
+                        .setPrecisionAndScale(resultSet.getInt("dl"), resultSet.getInt("ds")));
+                tableName = resultSet.getString("tn") == null ? "" : resultSet.getString("tn");
+            }
+            MainApp.dataSchema.put(tableName, res);
+            ConUtil.close(con, statement, resultSet);
+        } catch (IOException | SQLException e) {
+            logger.error("获取schema出错", e);
+            e.printStackTrace();
+        }
     }
 }

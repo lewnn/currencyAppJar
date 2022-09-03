@@ -7,7 +7,17 @@ import java.util.List;
 public class FlinkSqlCheck {
 
     public static boolean getSqlMultiInsertMode(List<String> sqlList) {
-        return sqlList.stream().filter(x -> x.toUpperCase().replace(" ", "").indexOf(FlinkConstant.INSET_SQL) > -1).count() > 1;
+        return sqlList.stream().filter(x -> x.toUpperCase().replace(" ", "").contains(FlinkConstant.INSET_SQL)).count() > 1;
+    }
+    /**
+     *
+     * @author lcg
+     * @operate
+     * @date 2022/8/29 16:04
+     * @return boolean
+     */
+    public static boolean getSqlCdcChainMode(List<String> sqlList) {
+        return sqlList.stream().filter(x -> x.toUpperCase().replace(" ", "").contains(FlinkConstant.CDC_SQL)).count() > 1;
     }
 
     /**

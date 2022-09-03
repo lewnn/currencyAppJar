@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="flink-sql-connector-mysql-cdc-2.3-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../flinkjar/cdc/flink-sql-connector-mysql-cdc-2.3-SNAPSHOT.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../flinkjar/cdc/flink-sql-connector-oracle-cdc-2.3-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
