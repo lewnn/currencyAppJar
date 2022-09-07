@@ -1,21 +1,17 @@
 package com.app.entity;
 
+import org.apache.flink.table.types.logical.*;
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 
 public class DataType implements Serializable {
     private  String name;
     private String type; //类型
     private Integer precision; //长度
     private Integer scale; //精度
-    private Boolean keyInfo; //精度
 
-    public DataType(String name, String type, Integer pk) {
+    public DataType(String name, String type) {
         this.name = name;
         this.type = type;
-        this.keyInfo = pk != null && pk == 1;
     }
 
     public DataType setPrecisionAndScale(Integer precision, Integer scale) {
@@ -24,69 +20,74 @@ public class DataType implements Serializable {
         return this;
     }
 
-    public boolean checkTimeStamp() {
-        return this.type.toUpperCase().contains(OracleDataTypeEnum.TIMESTAMP.name())
-                || this.type.toUpperCase().contains(OracleDataTypeEnum.DATETIME.name());
-    }
 
     public String getName() {
         return this.name;
     }
 
+    public Integer getPrecision() {
+        return this.precision;
+    }
     enum OracleDataTypeEnum {
-        VARCHAR("string"),
-        TIMESTAMP("string"),
-        DATETIME("string"),
-        NUMBER("int"),
-        NUMBER_P_S("DECIMAL");
+        VARCHAR("STRING", new VarCharType(255)),
+        STRING("STRING", new VarCharType(255)),
+        VARCHAR2("STRING", new VarCharType(255)),
+        TIMESTAMP("TIMESTAMP", new TimestampType()),
+        DATETIME("DATETIME", new TimestampType()),
+        DATE("TIMESTAMP", new TimestampType()),
+        DECIMAL("DECIMAL", new DecimalType()),
+        NUMBER("INT", new IntType());
         String type;
+        LogicalType logicalType;
 
-        OracleDataTypeEnum(String type) {
+        OracleDataTypeEnum(String type, LogicalType logicalType) {
             this.type = type;
+            this.logicalType = logicalType;
         }
-
-        public void getData() {
-            OracleDataTypeEnum oracleDataTypeEnum = OracleDataTypeEnum.valueOf("");
+        private OracleDataTypeEnum getType(DataType  dataType){
             for (OracleDataTypeEnum value : OracleDataTypeEnum.values()) {
-                value.toString().contains("");
+                if(value.name().contains(dataType.type.toUpperCase())
+                || value.type.contains(dataType.type.toUpperCase())){
+                    return value;
+                }
             }
+            System.out.println(dataType.type);
+            return null;
         }
 
-    }
+        public LogicalType getData(DataType  dataType) {
+            switch (getType(dataType)){
+                case STRING:
+                case VARCHAR:
+                case VARCHAR2:
+                    return new VarCharType(dataType.precision);
+                case TIMESTAMP:
+                case DATE:
+                case DATETIME:
+                    return DATETIME.logicalType;
+                case  DECIMAL:
+                case  NUMBER:
+                    if(dataType.scale != null){
+                        return new DecimalType(dataType.precision, dataType.scale);
+                    }else {
+                        return new DecimalType();
+                    }
+                default:
+                    return new VarCharType(255);
+            }
 
-    private String getData(String col) {
-        return "";
-    }
-
-    public Boolean getKeyInfo() {
-        return keyInfo;
-    }
-
-    public static String getDateStr(String time) {
-        int num = 1;
-        if (time.length() >= 14) {
-            num = 1000 * 1000;
-        } else if (time.length() >= 11) {
-            num = 1000;
         }
-        LocalDateTime localDateTime = LocalDateTime.ofEpochSecond(Long.valueOf(time) / num, 0, ZoneOffset.ofHours(8));
-        return localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
     }
 
-    public static String getDateStr(String time, int zone) {
-        int num = 1;
-        if (time.length() >= 14) {
-            num = 1000 * 1000;
-        } else if (time.length() >= 11) {
-            num = 1000;
-        }
-        LocalDateTime localDateTime = LocalDateTime.ofEpochSecond(Long.valueOf(time) / num, 0, ZoneOffset.ofHours(zone));
-        return localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
+    /**
+     *
+     * @author lcg
+     * @operate 获取列类型的数据类型
+     * @date 2022/9/5 15:00
+     */
+    public LogicalType getDataLogicalType() {
+        return OracleDataTypeEnum.DATETIME.getData(this);
     }
 
-    public static String getTableName(String idf, String prefix) {
-        String[] idfs = idf.split("\\.");
-        return prefix + idfs[idfs.length - 1];
-    }
 
 }

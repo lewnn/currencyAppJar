@@ -57,6 +57,31 @@ public class MysqlCdc extends BaseCdc{
         return MysqlCdc.type;
     }
 
+    @Override
+    public String getPrefix() {
+        return null;
+    }
+
+    @Override
+    public Properties getSinkProp() {
+        return null;
+    }
+
+    @Override
+    public int getTimePrecision() {
+        return 0;
+    }
+
+    @Override
+    public int getTimeZone() {
+        return 0;
+    }
+
+    @Override
+    public String getSinkEndTimeName() {
+        return null;
+    }
+
     private MysqlCdc(String sql, String idParas) {
         loadTableSchema(idParas);
         parseConfig(sql);

@@ -1,10 +1,11 @@
 package com.app.cdc;
 
 import com.app.constant.CdcConstant;
+
 import java.util.Properties;
 
 public class OracleCdc extends BaseCdc {
-    public static String type= "oracle-cdc";
+    public static String type = "oracle-cdc";
 
     @Override
     public String getConnect() {
@@ -20,9 +21,9 @@ public class OracleCdc extends BaseCdc {
     public Properties getDebeziumProperties() {
         Properties properties = new Properties();
         for (Object o : cdcProper.keySet()) {
-            String  proKey = o.toString();
-            if(proKey.startsWith(CdcConstant.DEBEZIUM)){
-                properties.setProperty(proKey.replace("debezium.",""), cdcProper.getProperty(proKey));
+            String proKey = o.toString();
+            if (proKey.startsWith(CdcConstant.DEBEZIUM)) {
+                properties.setProperty(proKey.replace("debezium.", ""), cdcProper.getProperty(proKey));
             }
         }
         return properties;
@@ -40,12 +41,12 @@ public class OracleCdc extends BaseCdc {
 
     @Override
     public String getPassword() {
-        return  cdcProper.getProperty("password");
+        return cdcProper.getProperty("password");
     }
 
     @Override
     public String getDataBase() {
-        return  cdcProper.getProperty("schema-name");
+        return cdcProper.getProperty("schema-name");
     }
 
     //orcl
@@ -64,13 +65,45 @@ public class OracleCdc extends BaseCdc {
         return OracleCdc.type;
     }
 
+    @Override
+    public String getPrefix() {
+        return cdcProper.getProperty("cus.table.prefix");
+    }
+
+    @Override
+    public Properties getSinkProp() {
+        Properties properties = new Properties();
+        for (Object o : cdcProper.keySet()) {
+            String proKey = o.toString();
+            if (proKey.startsWith(CdcConstant.SINK_PROP)) {
+                properties.setProperty(proKey.replace(CdcConstant.SINK_PROP, ""), cdcProper.getProperty(proKey));
+            }
+        }
+        return properties;
+    }
+
+    @Override
+    public int getTimePrecision() {
+        return Integer.parseInt(cdcProper.getProperty("cus.time.precision", "1000"));
+    }
+
+    @Override
+    public int getTimeZone() {
+        return Integer.parseInt(cdcProper.getProperty("cus.time.zone", "0"));
+    }
+
+    @Override
+    public String getSinkEndTimeName() {
+        return cdcProper.getProperty("chain.end.name");
+    }
+
 
     private OracleCdc(String sql, String idParas) {
         parseConfig(sql);
         loadTableSchema(idParas);
     }
 
-    public static OracleCdc getInstance(String sql, String idParas){
+    public static OracleCdc getInstance(String sql, String idParas) {
         return new OracleCdc(sql, idParas);
     }
 }

@@ -163,8 +163,7 @@ public class ExecuteSqlProcess {
             String tableName = "";
             while (resultSet.next()) {
                 res.add(new DataType(resultSet.getString("name"),
-                        resultSet.getString("dt"),
-                        resultSet.getInt("pk"))
+                        resultSet.getString("dt"))
                         .setPrecisionAndScale(resultSet.getInt("dl"), resultSet.getInt("ds")));
                 tableName = resultSet.getString("tn") == null ? "" : resultSet.getString("tn");
             }

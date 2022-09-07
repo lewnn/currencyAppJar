@@ -33,10 +33,19 @@ public abstract class BaseCdc {
 
     public abstract String getType();
 
+    public abstract String getPrefix();
+
+    public abstract Properties getSinkProp();
+
+    public abstract int getTimePrecision();
+
+    public abstract int getTimeZone();
+
     protected void loadTableSchema(String idParas) {
         ExecuteSqlProcess.loadSchema(idParas);
     }
 
+    public abstract String getSinkEndTimeName();
 
     public void parseConfig(String sql) {
         String property = sql.substring(sql.indexOf("with") + 4).replace("(", "").replace(")", "");
@@ -65,5 +74,6 @@ public abstract class BaseCdc {
             throw new RuntimeException("获取cdc数据库类型失败");
         }
     }
+
 
 }

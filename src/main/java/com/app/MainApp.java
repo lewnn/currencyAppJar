@@ -4,6 +4,7 @@ import com.app.check.FlinkSqlCheck;
 import com.app.constant.FlinkConstant;
 import com.app.entity.AggTablePara;
 import com.app.entity.DataType;
+import com.app.executor.CdcExecutor;
 import com.app.utils.ExecuteSqlProcess;
 import com.app.utils.FlinkUtils;
 import org.apache.flink.api.common.RuntimeExecutionMode;
@@ -16,42 +17,35 @@ import org.apache.flink.table.api.*;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
  * @author lcg
  * @version 1.0
- * @title
- * @description
- * @createDate 2020/10/26
+ * @Date 2020/10/26
  */
 public class MainApp {
-    private static Logger logger = LoggerFactory.getLogger(MainApp.class);
+    private static final Logger logger = LoggerFactory.getLogger(MainApp.class);
 
     public static volatile HashSet<Tuple6<String, String, String, String, String, String>> allDataSet = new HashSet<>();
 
     public static ConcurrentHashMap<String, List<DataType>> dataSchema = new ConcurrentHashMap<>();
 
     // 主方法 入口
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         logger.info("任务开始");
         ParameterTool parameters = ParameterTool.fromArgs(args);
         String idParas = parameters.get("id", null);
-        String envConfig = "";
-        if (idParas == null || "".equals(idParas)) {
-            return;
-        } else {
+        logger.info("idParas:" + idParas);
+        String envConfig;
+        if (idParas != null && !"".equals(idParas)) {
             List<String> flinkSqlList = new ArrayList<>();
             String[] ids = idParas.split(",");
             envConfig = ExecuteSqlProcess.getExecuteSql(ids, flinkSqlList);
             boolean sqlMultiInsert = FlinkSqlCheck.getSqlMultiInsertMode(flinkSqlList);
             boolean cdcChain = FlinkSqlCheck.getSqlCdcChainMode(flinkSqlList);
             if (flinkSqlList.isEmpty()) {
-                return;
             } else if (sqlMultiInsert) {
                 List<String> sourceSql = new ArrayList<>();
                 List<String> sinkSql = new ArrayList<>();
@@ -59,7 +53,7 @@ public class MainApp {
                 executeSql(sourceSql, sinkSql, envConfig);
                 logger.info("合并模式任务提交结束");
             } else if (cdcChain) {
-
+               new CdcExecutor().executeSql(flinkSqlList.get(0), ids[0]);
             } else {
                 executeSql(flinkSqlList, new ArrayList<>(), envConfig);
                 logger.info("任务结束");
@@ -68,7 +62,6 @@ public class MainApp {
     }
 
     /**
-     * @return void
      * @author lcg
      * @operate 执行sql 及 注册函数
      * @date 2021/9/16 10:16

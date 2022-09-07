@@ -138,7 +138,7 @@ public abstract class FlinkConstant {
 
     public static String getTableSchemaSql(String sqlId) {
 //        return " SELECT  dc.name,`data_type` dt, dt2.name as tn, dc.data_length  dl,dc.data_scale ds from dlink_columns dc , dlink_flink_sql dfs,dlink_trans  dt ,dlink_tables dt2  WHERE  dc.table_id=dt.table_id and dt.id = dfs.trans_id and dt2.id=dt.table_id and dfs.id=" + sqlId;
-        return "SELECT  dc.name,`data_type` dt, dt2.name as tn, dc.data_length  dl,dc.data_scale ds, dc.is_pk pk from dlink_columns dc , dlink_flink_sql dfs,dlink_trans  dt ,dlink_tables dt2  WHERE  dc.table_id=dt.table_id and dt.id = dfs.trans_id and dt2.id=dt.table_id and dfs.id="+ sqlId+" order by dc.is_pk  desc";
+        return "SELECT  dc.name,data_type dt, dt2.name as tn, dc.data_length  dl,dc.data_scale ds, dc.is_pk pk from dlink_columns dc , dlink_flink_sql dfs,dlink_trans  dt ,dlink_tables dt2  WHERE  dc.table_id=dt.table_id and dt.id = dfs.trans_id and dt2.id=dt.table_id and dfs.id="+ sqlId;
     }
     public static String getDictExecuteSql(String dictStr) {
         return sqlQueryMysql + " where source_dict in " + dictStr + " or target_dict in " + dictStr;

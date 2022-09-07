@@ -17,7 +17,7 @@ public class FlinkSqlCheck {
      * @return boolean
      */
     public static boolean getSqlCdcChainMode(List<String> sqlList) {
-        return sqlList.stream().filter(x -> x.toUpperCase().replace(" ", "").contains(FlinkConstant.CDC_SQL)).count() > 1;
+        return sqlList.size() == 1 && sqlList.get(0).toUpperCase().contains("CDCTABLE");
     }
 
     /**
