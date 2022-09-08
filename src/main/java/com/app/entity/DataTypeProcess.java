@@ -56,7 +56,6 @@ public class DataTypeProcess implements Serializable {
                     return value;
                 }
             }
-            System.out.println(dataType.type);
             return null;
         }
 

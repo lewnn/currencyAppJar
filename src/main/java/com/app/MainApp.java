@@ -1,5 +1,6 @@
 package com.app;
 
+import com.app.cdc.BaseCdc;
 import com.app.check.FlinkSqlCheck;
 import com.app.constant.FlinkConstant;
 import com.app.entity.AggTablePara;
@@ -15,6 +16,7 @@ import org.apache.flink.configuration.ExecutionOptions;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.*;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
+import org.apache.flink.util.OutputTag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.*;
@@ -53,7 +55,13 @@ public class MainApp {
                 executeSql(sourceSql, sinkSql, envConfig);
                 logger.info("合并模式任务提交结束");
             } else if (cdcChain) {
-               new CdcExecutor().executeSql(flinkSqlList.get(0), ids[0]);
+                BaseCdc baseCdc = BaseCdc.getInstance(flinkSqlList.get(0), ids[0].split(",")[0]);
+                ConcurrentHashMap<String, OutputTag<Map>> outputTagMap = new ConcurrentHashMap<>();
+                for (String tag : baseCdc.getTables().split(",")) {
+                    outputTagMap.put(tag, new OutputTag<Map>(tag) {
+                    });
+                }
+               new CdcExecutor(outputTagMap).executeSql(baseCdc);
             } else {
                 executeSql(flinkSqlList, new ArrayList<>(), envConfig);
                 logger.info("任务结束");

@@ -35,7 +35,6 @@ public class ChainFlatMapFunc implements FlatMapFunction<Map, RowData> {
         HashMap after = (HashMap) value.get("after");
         HashMap before = (HashMap) value.get("before");
         HashMap source = (HashMap) value.get("source");
-        System.err.println("fffff:  "+value);
         switch (value.get("op").toString()) {
             case "c":
                 newRow.setRowKind(RowKind.INSERT);
@@ -55,7 +54,7 @@ public class ChainFlatMapFunc implements FlatMapFunction<Map, RowData> {
                 newRow.setField(dataTypeInfo.size(), StringData.fromString("2999-01-01 00:00:01"));
                 out.collect(newRow);
                 newRow.setRowKind(RowKind.UPDATE_AFTER);
-                newRow.setField(dataTypeInfo.size() , StringData.fromString(LocalDateTime.ofEpochSecond((long) source.get("ts_ms")/timePrecision, 0, ZoneOffset.ofHours(timeZone)).format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"))));
+                newRow.setField(dataTypeInfo.size() , StringData.fromString(LocalDateTime.ofEpochSecond((long) source.get("ts_ms")/timePrecision, 0, ZoneOffset.ofHours(timeZone)).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
                 out.collect(newRow);
                 newRow.setRowKind(RowKind.UPDATE_AFTER);
                 for (int i = 0; i < dataTypeInfo.size(); i++) {

@@ -1,6 +1,12 @@
 package com.app.cdc;
 
 
+import com.ververica.cdc.connectors.mysql.source.MySqlSource;
+import com.ververica.cdc.debezium.StringDebeziumDeserializationSchema;
+import org.apache.flink.api.common.eventtime.WatermarkStrategy;
+import org.apache.flink.streaming.api.datastream.DataStream;
+import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+
 import java.util.Properties;
 
 public class MysqlCdc extends BaseCdc {
@@ -94,5 +100,21 @@ public class MysqlCdc extends BaseCdc {
 
     public static MysqlCdc getInstance(String sql, String idParas) {
         return new MysqlCdc(sql, idParas);
+    }
+
+    @Override
+    public DataStream<String> addSource(StreamExecutionEnvironment environment) {
+        MySqlSource<String> oracleSource = MySqlSource.<String>builder()
+                .hostname(this.getHostname())
+                .port(this.getPort())
+                .databaseList(this.getDataBase().split(","))
+                .tableList(this.getTables().split(","))
+                .username(this.getUserName())
+                .password(this.getPassword())
+                .serverTimeZone("UTC")  //时区
+                .debeziumProperties(this.getDebeziumProperties())
+                .deserializer(new StringDebeziumDeserializationSchema())
+                .build();
+       return environment.fromSource(oracleSource, WatermarkStrategy.noWatermarks(), "mysql-source");
     }
 }

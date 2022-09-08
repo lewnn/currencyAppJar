@@ -1,6 +1,8 @@
 package com.app.cdc;
 
 import com.app.utils.ExecuteSqlProcess;
+import org.apache.flink.streaming.api.datastream.DataStream;
+import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,4 +80,5 @@ public abstract class BaseCdc {
     }
 
 
+    public abstract DataStream<String> addSource(StreamExecutionEnvironment environment);
 }

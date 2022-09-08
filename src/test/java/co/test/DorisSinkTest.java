@@ -17,7 +17,7 @@ import org.apache.flink.table.types.DataType;
 import java.util.Properties;
 import java.util.Random;
 
-public class TestNew {
+public class DorisSinkTest {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         // enable checkpoint

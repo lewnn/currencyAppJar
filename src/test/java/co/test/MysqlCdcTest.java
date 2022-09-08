@@ -10,7 +10,7 @@ import org.apache.flink.streaming.api.functions.source.SourceFunction;
 
 import java.util.Properties;
 
-public class TestCdc {
+public class MysqlCdcTest {
     public static void main(String[] args) throws Exception {
 
         //show binary logs;
@@ -38,7 +38,6 @@ public class TestCdc {
         env.fromSource(mySqlSource, WatermarkStrategy.noWatermarks(), "MySqlParallelSource")
                 .setParallelism(1)
                 .map(x ->{
-                    System.out.println(x);
                     return x;
                 })
                 .print()

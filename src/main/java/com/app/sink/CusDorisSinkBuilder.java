@@ -15,23 +15,24 @@ public class CusDorisSinkBuilder {
         return  builder.setDorisReadOptions(DorisReadOptions.builder().build())
                 .setDorisExecutionOptions( DorisExecutionOptions.builder().disable2PC()
                         .setStreamLoadProp(getSteamLoadProp(properties)).build())
-                .setSerializer(RowDataSerializer.builder()    //serialize according to rowdata
+                .setSerializer(RowDataSerializer.builder()
                         .setFieldNames(fields)
-                        .setType("json")           //json format
+                        .setType("json")
                         .setFieldType(types).build())
                 .setDorisOptions( DorisOptions.builder().setFenodes(properties.getProperty(ConfigurationOptions.DORIS_FENODES))
                         .setTableIdentifier(properties.getProperty("cus.sink.db") + "." + tableName)
                         .setUsername(properties.getProperty(ConfigurationOptions.DORIS_USER))
                         .setPassword(properties.getProperty(ConfigurationOptions.DORIS_PASSWORD)).build()).build();
+
     }
+
     public Properties getSteamLoadProp(Properties properties){
         Properties res = new Properties();
         properties.forEach((key, value) ->{
             if(key.toString().startsWith(DorisDynamicTableFactory.STREAM_LOAD_PROP_PREFIX)){
-                res.put(key, value);
+                res.put(key.toString().replace(DorisDynamicTableFactory.STREAM_LOAD_PROP_PREFIX, ""), value);
             }
         });
-        System.out.println(res);
         return res;
     }
 
