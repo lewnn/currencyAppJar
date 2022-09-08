@@ -1,11 +1,11 @@
 package com.app.cdc;
 
 
-
 import java.util.Properties;
 
-public class MysqlCdc extends BaseCdc{
-    public static String type= "mysql-cdc";
+public class MysqlCdc extends BaseCdc {
+    public static String type = "mysql-cdc";
+
     @Override
     public String getConnect() {
         return null;
@@ -82,12 +82,17 @@ public class MysqlCdc extends BaseCdc{
         return null;
     }
 
+    @Override
+    public Long getCheckpointing() {
+        return 0L;
+    }
+
     private MysqlCdc(String sql, String idParas) {
         loadTableSchema(idParas);
         parseConfig(sql);
     }
 
-    public static MysqlCdc getInstance(String sql, String idParas){
+    public static MysqlCdc getInstance(String sql, String idParas) {
         return new MysqlCdc(sql, idParas);
     }
 }

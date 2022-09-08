@@ -1,20 +1,23 @@
 package com.app.entity;
 
+import org.apache.flink.table.api.DataTypes;
+import org.apache.flink.table.types.DataType;
 import org.apache.flink.table.types.logical.*;
+
 import java.io.Serializable;
 
-public class DataType implements Serializable {
-    private  String name;
+public class DataTypeProcess implements Serializable {
+    private String name;
     private String type; //类型
     private Integer precision; //长度
     private Integer scale; //精度
 
-    public DataType(String name, String type) {
+    public DataTypeProcess(String name, String type) {
         this.name = name;
         this.type = type;
     }
 
-    public DataType setPrecisionAndScale(Integer precision, Integer scale) {
+    public DataTypeProcess setPrecisionAndScale(Integer precision, Integer scale) {
         this.precision = precision;
         this.scale = scale;
         return this;
@@ -28,6 +31,7 @@ public class DataType implements Serializable {
     public Integer getPrecision() {
         return this.precision;
     }
+
     enum OracleDataTypeEnum {
         VARCHAR("STRING", new VarCharType(255)),
         STRING("STRING", new VarCharType(255)),
@@ -44,10 +48,11 @@ public class DataType implements Serializable {
             this.type = type;
             this.logicalType = logicalType;
         }
-        private OracleDataTypeEnum getType(DataType  dataType){
+
+        private OracleDataTypeEnum getType(DataTypeProcess dataType) {
             for (OracleDataTypeEnum value : OracleDataTypeEnum.values()) {
-                if(value.name().contains(dataType.type.toUpperCase())
-                || value.type.contains(dataType.type.toUpperCase())){
+                if (value.name().contains(dataType.type.toUpperCase())
+                        || value.type.contains(dataType.type.toUpperCase())) {
                     return value;
                 }
             }
@@ -55,8 +60,8 @@ public class DataType implements Serializable {
             return null;
         }
 
-        public LogicalType getData(DataType  dataType) {
-            switch (getType(dataType)){
+        public LogicalType getData(DataTypeProcess dataType) {
+            switch (getType(dataType)) {
                 case STRING:
                 case VARCHAR:
                 case VARCHAR2:
@@ -65,11 +70,11 @@ public class DataType implements Serializable {
                 case DATE:
                 case DATETIME:
                     return DATETIME.logicalType;
-                case  DECIMAL:
-                case  NUMBER:
-                    if(dataType.scale != null){
+                case DECIMAL:
+                case NUMBER:
+                    if (dataType.scale != null) {
                         return new DecimalType(dataType.precision, dataType.scale);
-                    }else {
+                    } else {
                         return new DecimalType();
                     }
                 default:
@@ -77,10 +82,28 @@ public class DataType implements Serializable {
             }
 
         }
+
+        public DataType getEnumsData(DataTypeProcess dataType) {
+            switch (getType(dataType)) {
+                case STRING:
+                case VARCHAR:
+                case VARCHAR2:
+                    return DataTypes.VARCHAR(dataType.precision);
+                case TIMESTAMP:
+                case DATE:
+                case DATETIME:
+                    return DataTypes.TIMESTAMP();
+                case DECIMAL:
+                case NUMBER:
+                    return DataTypes.DECIMAL(dataType.precision, dataType.scale == null ? 0 : dataType.scale);
+                default:
+                    return DataTypes.VARCHAR(255);
+            }
+
+        }
     }
 
     /**
-     *
      * @author lcg
      * @operate 获取列类型的数据类型
      * @date 2022/9/5 15:00
@@ -89,5 +112,7 @@ public class DataType implements Serializable {
         return OracleDataTypeEnum.DATETIME.getData(this);
     }
 
-
+    public DataType getDataType() {
+        return OracleDataTypeEnum.DATETIME.getEnumsData(this);
+    }
 }

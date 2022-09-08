@@ -9,24 +9,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="aa89a064-89df-4c51-9dd2-b37b839d1293" name="Default Changelist" comment="1.13.3 1.0.3">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/app/convert/DorisConvertValue.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/app/func/ChainFlatMapFunc.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+    <list default="true" id="aa89a064-89df-4c51-9dd2-b37b839d1293" name="Default Changelist" comment="ds">
+      <change afterPath="$PROJECT_DIR$/src/test/java/co/test/TestNew.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/app/MainApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/MainApp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/app/cdc/BaseCdc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/cdc/BaseCdc.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/app/cdc/MysqlCdc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/cdc/MysqlCdc.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/app/cdc/OracleCdc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/cdc/OracleCdc.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/check/FlinkSqlCheck.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/check/FlinkSqlCheck.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/app/config/ExcutorConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/config/ExcutorConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/constant/CdcConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/constant/CdcConstant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/constant/FlinkConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/constant/FlinkConstant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/entity/DataType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/entity/DataType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/convert/DorisConvertValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/convert/DorisConvertValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/entity/DataType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/entity/DataTypeProcess.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/app/executor/CdcExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/executor/CdcExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/func/ChainFlatMapFunc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/func/ChainFlatMapFunc.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/app/sink/CusDorisSinkBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/sink/CusDorisSinkBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/app/utils/ExecuteSqlProcess.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/utils/ExecuteSqlProcess.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/co/test/DorisSinkDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/co/test/DorisSinkDemo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/co/test/TestSqlCdc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/co/test/TestSqlCdc.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -121,25 +119,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DataType" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.app.entity.DataType" />
+    <configuration name="DataTypeProcess" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.app.entity.DataTypeProcess" />
       <module name="currencyAppJar" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.app.entity.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Demo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="co.test.Demo" />
-      <module name="currencyAppJar" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="co.test.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -153,6 +138,19 @@
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.app.convert.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestNew" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="co.test.TestNew" />
+      <module name="currencyAppJar" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="co.test.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -187,10 +185,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.TestSqlCdc" />
+        <item itemvalue="Application.TestNew" />
         <item itemvalue="Application.DorisConvertValue" />
-        <item itemvalue="Application.DataType" />
+        <item itemvalue="Application.DataTypeProcess" />
         <item itemvalue="Application.CusDorisSource" />
-        <item itemvalue="Application.Demo" />
       </list>
     </recent_temporary>
   </component>
@@ -272,7 +270,7 @@
       <workItem from="1660792593624" duration="2090000" />
       <workItem from="1660811193350" duration="887000" />
       <workItem from="1661753866540" duration="102494000" />
-      <workItem from="1662339660922" duration="38371000" />
+      <workItem from="1662339660922" duration="51800000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <created>1636960539098</created>
@@ -365,7 +363,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662167903049</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="ds">
+      <created>1662530360064</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1662530360064</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -470,7 +475,8 @@
     <MESSAGE value="getvalue函数" />
     <MESSAGE value="111" />
     <MESSAGE value="1.13.3 1.0.3" />
-    <option name="LAST_COMMIT_MESSAGE" value="1.13.3 1.0.3" />
+    <MESSAGE value="ds" />
+    <option name="LAST_COMMIT_MESSAGE" value="ds" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -481,9 +487,14 @@
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/app/entity/DataType.java</url>
+          <url>file://$PROJECT_DIR$/src/main/java/com/app/entity/DataTypeProcess.java</url>
           <line>88</line>
           <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/app/func/ChainFlatMapFunc.java</url>
+          <line>36</line>
+          <option name="timeStamp" value="15" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -47,6 +47,8 @@ public abstract class BaseCdc {
 
     public abstract String getSinkEndTimeName();
 
+    public abstract Long getCheckpointing();
+
     public void parseConfig(String sql) {
         String property = sql.substring(sql.indexOf("with") + 4).replace("(", "").replace(")", "");
         String[] splitSql = property.split("=");

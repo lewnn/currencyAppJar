@@ -3,7 +3,7 @@ package com.app;
 import com.app.check.FlinkSqlCheck;
 import com.app.constant.FlinkConstant;
 import com.app.entity.AggTablePara;
-import com.app.entity.DataType;
+import com.app.entity.DataTypeProcess;
 import com.app.executor.CdcExecutor;
 import com.app.utils.ExecuteSqlProcess;
 import com.app.utils.FlinkUtils;
@@ -30,7 +30,7 @@ public class MainApp {
 
     public static volatile HashSet<Tuple6<String, String, String, String, String, String>> allDataSet = new HashSet<>();
 
-    public static ConcurrentHashMap<String, List<DataType>> dataSchema = new ConcurrentHashMap<>();
+    public static ConcurrentHashMap<String, List<DataTypeProcess>> dataSchema = new ConcurrentHashMap<>();
 
     // 主方法 入口
     public static void main(String[] args) throws Exception {

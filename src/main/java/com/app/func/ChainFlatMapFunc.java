@@ -1,11 +1,12 @@
 package com.app.func;
 
 import com.app.convert.DorisConvertValue;
-import com.app.entity.DataType;
+import com.app.entity.DataTypeProcess;
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.table.data.GenericRowData;
 import org.apache.flink.table.data.RowData;
 import org.apache.flink.table.data.StringData;
+import org.apache.flink.table.types.DataType;
 import org.apache.flink.table.types.logical.LogicalType;
 import org.apache.flink.types.RowKind;
 import org.apache.flink.util.Collector;
@@ -17,12 +18,12 @@ import java.util.List;
 import java.util.Map;
 
 public class ChainFlatMapFunc implements FlatMapFunction<Map, RowData> {
-    List<DataType> dataTypeInfo;
-    LogicalType[] types;
+    List<DataTypeProcess> dataTypeInfo;
+    DataType[] types;
     int timePrecision;
     int timeZone;
 
-    public ChainFlatMapFunc( List<DataType> dataTypeInfo, LogicalType[]types, int timePrecision, int timeZone){
+    public ChainFlatMapFunc(List<DataTypeProcess> dataTypeInfo, DataType[]types, int timePrecision, int timeZone){
         this.dataTypeInfo = dataTypeInfo;
        this.types = types;
        this.timePrecision = timePrecision;
@@ -34,6 +35,7 @@ public class ChainFlatMapFunc implements FlatMapFunction<Map, RowData> {
         HashMap after = (HashMap) value.get("after");
         HashMap before = (HashMap) value.get("before");
         HashMap source = (HashMap) value.get("source");
+        System.err.println("fffff:  "+value);
         switch (value.get("op").toString()) {
             case "c":
                 newRow.setRowKind(RowKind.INSERT);

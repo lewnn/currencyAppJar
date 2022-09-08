@@ -97,6 +97,11 @@ public class OracleCdc extends BaseCdc {
         return cdcProper.getProperty("chain.end.name");
     }
 
+    @Override
+    public Long getCheckpointing() {
+        return Long.valueOf(cdcProper.getProperty("cus.time.checkpointing"));
+    }
+
 
     private OracleCdc(String sql, String idParas) {
         parseConfig(sql);

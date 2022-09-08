@@ -3,7 +3,7 @@ package com.app.utils;
 import com.app.MainApp;
 import com.app.config.ExcutorConfig;
 import com.app.constant.FlinkConstant;
-import com.app.entity.DataType;
+import com.app.entity.DataTypeProcess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +14,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
  * @author lcg
@@ -159,10 +158,10 @@ public class ExecuteSqlProcess {
             Connection con = ConUtil.getConn(ExcutorConfig.DRIVER, ExcutorConfig.URL, ExcutorConfig.MYSQL_USER, ExcutorConfig.MYSQL_PASSWORD);
             Statement statement = con.createStatement();
             ResultSet resultSet = statement.executeQuery(FlinkConstant.getTableSchemaSql(id));
-            List<DataType> res = new ArrayList<>();
+            List<DataTypeProcess> res = new ArrayList<>();
             String tableName = "";
             while (resultSet.next()) {
-                res.add(new DataType(resultSet.getString("name"),
+                res.add(new DataTypeProcess(resultSet.getString("name"),
                         resultSet.getString("dt"))
                         .setPrecisionAndScale(resultSet.getInt("dl"), resultSet.getInt("ds")));
                 tableName = resultSet.getString("tn") == null ? "" : resultSet.getString("tn");

@@ -4,7 +4,7 @@ import com.app.MainApp;
 import com.app.cdc.BaseCdc;
 import com.app.cdc.MysqlCdc;
 import com.app.cdc.OracleCdc;
-import com.app.entity.DataType;
+import com.app.entity.DataTypeProcess;
 import com.app.func.ChainFlatMapFunc;
 import com.app.sink.CusDorisSinkBuilder;
 import com.ververica.cdc.connectors.mysql.source.MySqlSource;
@@ -21,7 +21,8 @@ import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.ProcessFunction;
 import org.apache.flink.streaming.api.functions.source.SourceFunction;
-import org.apache.flink.table.data.*;
+import org.apache.flink.table.api.DataTypes;
+import org.apache.flink.table.types.DataType;
 import org.apache.flink.table.types.logical.*;
 import org.apache.flink.util.Collector;
 import org.apache.flink.util.OutputTag;
@@ -35,6 +36,7 @@ public class CdcExecutor implements Serializable {
     private final static ConcurrentHashMap<String, OutputTag<Map>> outputTagMap = new ConcurrentHashMap<>();
 
     public void executeSql(String cdcList, String idParas) throws Exception {
+        environment.enableCheckpointing(20000);
         BaseCdc baseCdc = BaseCdc.getInstance(cdcList, idParas.split(",")[0]);
         DataStream<String> startStream = null;
         if (OracleCdc.type.equals(baseCdc.getType())) {
@@ -93,6 +95,7 @@ public class CdcExecutor implements Serializable {
                 .process(new ProcessFunction<HashMap, HashMap>() {
                     @Override
                     public void processElement(HashMap value, Context ctx, Collector<HashMap> out) throws Exception {
+                        System.err.println("vvv:  "+value);
                         ctx.output(outputTagMap.get(value.get("idf")), value);
                     }
                 });
@@ -103,22 +106,31 @@ public class CdcExecutor implements Serializable {
             String id = data.getId();
             String tableName = baseCdc.getPrefix() + id.split("\\.")[1];
             //数据类型
-            List<DataType> dataTypeInfo = MainApp.dataSchema.get(tableName);
+            List<DataTypeProcess> dataTypeInfo = MainApp.dataSchema.get(tableName);
             List<String> fieldList = new ArrayList<>();
-            List<LogicalType> typeList = new ArrayList<>();
-            for (DataType dataType : dataTypeInfo) {
+            List<DataType> typeList = new ArrayList<>();
+            for (DataTypeProcess dataType : dataTypeInfo) {
                 fieldList.add(dataType.getName());
-                typeList.add(dataType.getDataLogicalType());
+                typeList.add(dataType.getDataType());
             }
             //field
             String[] field = fieldList.toArray(new String[fieldList.size() + 1]);
-            LogicalType[] types = typeList.toArray(new LogicalType[fieldList.size() + 1]);
+            DataType[] types = typeList.toArray(new DataType[typeList.size() + 1]);
             field[fieldList.size()] = baseCdc.getSinkEndTimeName();
             //field的属性
-            types[fieldList.size()] = new VarCharType();
+            types[fieldList.size()] = DataTypes.VARCHAR(30);
+            for (String s : field) {
+                System.out.print(s +" ");
+            }
+            System.out.println();
+            for (DataType type : types) {
+                System.out.print(type.getLogicalType()+             " ");
+            }
+//            String[] field = new String[]{"D_CODE","PRICE","C_DT","C_D","CHAIN_END"};
+//            DataType[] types = new DataType[]{DataTypes.VARCHAR(50), DataTypes.DECIMAL(11,4), DataTypes.TIMESTAMP(), DataTypes.TIMESTAMP(), DataTypes.STRING()};
             afterTag.getSideOutput(data)
                     .flatMap(new ChainFlatMapFunc(dataTypeInfo, types, baseCdc.getTimePrecision(), baseCdc.getTimeZone()))
-                    .addSink(new CusDorisSinkBuilder<RowData>().newDorisSink(tableName, baseCdc.getSinkProp(), field, types));
+                    .sinkTo(new CusDorisSinkBuilder().newDorisSink(tableName, baseCdc.getSinkProp(), field, types));
             environment.execute("tst");
         }
     }
