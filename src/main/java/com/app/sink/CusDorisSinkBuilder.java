@@ -11,12 +11,16 @@ import java.util.Properties;
 
 public class CusDorisSinkBuilder {
     public DorisSink<RowData> newDorisSink(String tableName, Properties properties,String[] fields,  DataType[] types) {
+        String columns = String.join(",",fields) + ",__DORIS_DELETE_SIGN__";
+        Properties steamLoadProp = getSteamLoadProp(properties);
+        steamLoadProp.put("columns", columns);
         DorisSink.Builder<RowData> builder = DorisSink.builder();
         return  builder.setDorisReadOptions(DorisReadOptions.builder().build())
                 .setDorisExecutionOptions( DorisExecutionOptions.builder().disable2PC()
-                        .setStreamLoadProp(getSteamLoadProp(properties)).build())
+                        .setStreamLoadProp(steamLoadProp).build())
                 .setSerializer(RowDataSerializer.builder()
                         .setFieldNames(fields)
+                        .enableDelete(true)
                         .setType("json")
                         .setFieldType(types).build())
                 .setDorisOptions( DorisOptions.builder().setFenodes(properties.getProperty(ConfigurationOptions.DORIS_FENODES))

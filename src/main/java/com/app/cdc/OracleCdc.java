@@ -8,7 +8,6 @@ import org.apache.doris.flink.table.DorisDynamicTableFactory;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.source.SourceFunction;
-
 import java.util.Properties;
 
 public class OracleCdc extends BaseCdc {
@@ -110,6 +109,16 @@ public class OracleCdc extends BaseCdc {
     @Override
     public Long getCheckpointing() {
         return Long.valueOf(cdcProper.getProperty("cus.time.checkpointing"));
+    }
+
+    @Override
+    public Boolean isOpenChain() {
+        return Boolean.valueOf(cdcProper.getProperty("cus.open.chain"));
+    }
+
+    @Override
+    public String getSinkTableName() {
+        return String.valueOf(cdcProper.getOrDefault("sink.prop.cus.sink.table", ""));
     }
 
 

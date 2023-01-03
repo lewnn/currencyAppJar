@@ -13,6 +13,7 @@ import org.apache.flink.table.data.GenericRowData;
 import org.apache.flink.table.data.RowData;
 import org.apache.flink.table.data.StringData;
 import org.apache.flink.table.types.DataType;
+import org.apache.flink.types.RowKind;
 
 import java.util.Properties;
 import java.util.Random;
@@ -35,8 +36,10 @@ public class DorisSinkTest {
         Properties properties = new Properties();
         properties.setProperty("format", "json");
         properties.setProperty("read_json_by_line", "true");
+        properties.setProperty("columns", "city, pay, temp, __DORIS_DELETE_SIGN__");
         DorisExecutionOptions.Builder executionBuilder = DorisExecutionOptions.builder();
-        executionBuilder.disable2PC()//streamload label prefix
+        executionBuilder.setDeletable(true)//streamload label prefix
+                .setLabelPrefix("test12333"+ new Random().nextInt(5000))
                 .setStreamLoadProp(properties); //streamload params
 
 //flink rowdata‘s schema
@@ -48,26 +51,34 @@ public class DorisSinkTest {
                 .setSerializer(RowDataSerializer.builder()    //serialize according to rowdata
                         .setFieldNames(fields)
                         .setType("json")           //json format
+                        .enableDelete(true)
                         .setFieldType(types).build())
                 .setDorisOptions(dorisBuilder.build());
 
 
         DataStream<RowData> source = env.socketTextStream("10.1.51.26", 25561)
-//        DataStream<RowData> source = env.fromElements("")
+//        DataStream<RowData> source = env.fromElements("123","456","123")
                 .map(new MapFunction<String, RowData>() {
                     Random random = new Random();
                     @Override
                     public RowData map(String value) throws Exception {
                         GenericRowData genericRowData = new GenericRowData(3);
-                        genericRowData.setField(0, StringData.fromString("beijing"+ random.nextInt(1000)) );
-                        genericRowData.setField(1, random.nextDouble());
-                        genericRowData.setField(2, random.nextDouble());
+                        if(value.equals("456")){
+                            value = "123";
+                            genericRowData.setRowKind(RowKind.INSERT);
+                        }else if(value.equals("789")){
+                            value = "123";
+                            genericRowData.setRowKind(RowKind.DELETE);
+                        }
+                        genericRowData.setField(0, StringData.fromString("beijing"+ value) );
+                        genericRowData.setField(1, Double.valueOf(value));
+                        genericRowData.setField(2, Double.valueOf(value));
                         System.out.println(genericRowData);
                         return genericRowData;
                     }
                 });
 
         source.sinkTo(builder.build());
-        env.execute("");
+        env.execute("1");
     }
 }

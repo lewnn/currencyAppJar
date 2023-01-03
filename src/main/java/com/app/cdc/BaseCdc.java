@@ -11,7 +11,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public abstract class BaseCdc {
-    public static String type = "base";
 
     protected Properties cdcProper = new Properties();
 
@@ -51,10 +50,17 @@ public abstract class BaseCdc {
 
     public abstract Long getCheckpointing();
 
+    public abstract Boolean isOpenChain();
+
+    public abstract String getSinkTableName();
+
+    public abstract DataStream<String> addSource(StreamExecutionEnvironment environment);
+
+
     public void parseConfig(String sql) {
         String property = sql.substring(sql.indexOf("with") + 4).replace("(", "").replace(")", "");
         String[] splitSql = property.split("=");
-        String matchStr = "\'\\S+\'";
+        String matchStr = "'\\S+'";
         Pattern pattern = Pattern.compile(matchStr);
         List<String> propertyList = new ArrayList<>();
         for (String sqlStrSplit : splitSql) {
@@ -80,5 +86,4 @@ public abstract class BaseCdc {
     }
 
 
-    public abstract DataStream<String> addSource(StreamExecutionEnvironment environment);
 }

@@ -6,7 +6,6 @@ import com.ververica.cdc.debezium.StringDebeziumDeserializationSchema;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-
 import java.util.Properties;
 
 public class MysqlCdc extends BaseCdc {
@@ -92,6 +91,17 @@ public class MysqlCdc extends BaseCdc {
     public Long getCheckpointing() {
         return 0L;
     }
+
+    @Override
+    public Boolean isOpenChain() {
+        return Boolean.valueOf(cdcProper.getProperty("cus.open.chain"));
+    }
+
+    @Override
+    public String getSinkTableName() {
+        return null;
+    }
+
 
     private MysqlCdc(String sql, String idParas) {
         loadTableSchema(idParas);

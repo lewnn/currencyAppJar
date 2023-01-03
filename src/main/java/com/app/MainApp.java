@@ -114,7 +114,8 @@ public class MainApp {
                 statementSet.execute();
             }
         } catch (Exception e) {
-            logger.error("任务异常", e);
+            e.printStackTrace();
+//            logger.error("任务异常", e);
         }
     }
 

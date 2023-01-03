@@ -144,7 +144,7 @@ public class ExecuteSqlProcess {
             ResultSet resultSet = statement.executeQuery(FlinkConstant.getExecuteAllSqlConfig());
             while (resultSet.next()) {
                 res.put(resultSet.getString("name") == null ? "" : resultSet.getString("name"),
-                        resultSet.getString("connect_info") == null ? "" : resultSet.getString("connect_info"));
+                        resultSet.getString("value") == null ? "" : resultSet.getString("value"));
             }
             ConUtil.close(con, statement, resultSet);
         } catch (IOException | SQLException e) {
@@ -152,6 +152,7 @@ public class ExecuteSqlProcess {
         }
         return res;
     }
+
 
     public static void loadSchema(String id) {
         try {

@@ -10,22 +10,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aa89a064-89df-4c51-9dd2-b37b839d1293" name="Default Changelist" comment="222">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/app/func/CusFlatMapFunc.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/app/func/FlatMapBuilder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/apache/flink/connector/jdbc/dialect/JdbcDialect.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/apache/flink/connector/jdbc/internal/options/JdbcLookupOptions.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/apache/flink/connector/jdbc/table/JdbcDynamicTableFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/apache/flink/connector/jdbc/table/JdbcDynamicTableSource.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/co/ds/Test.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/co/ds/test/Test2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/co/ds/test/test.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/co/test/TestSqlCdcNoChain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/app/MainApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/MainApp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/app/cdc/BaseCdc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/cdc/BaseCdc.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/app/cdc/MysqlCdc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/cdc/MysqlCdc.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/app/cdc/OracleCdc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/cdc/OracleCdc.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/convert/DorisConvertValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/convert/DorisConvertValue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/entity/DataTypeProcess.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/entity/DataTypeProcess.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/config/ExcutorConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/config/ExcutorConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/constant/FlinkConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/constant/FlinkConstant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/enums/DorisVersionEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/enums/DorisVersionEnum.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/app/executor/CdcExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/executor/CdcExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/func/CdcMapParseFunc.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/func/CdcMapParseFunc2.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/app/func/ChainFlatMapFunc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/func/ChainFlatMapFunc.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/func/OracleCdcFilterFunction.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/app/sink/CusDorisSinkBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/sink/CusDorisSinkBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/co/test/Demo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/co/test/DorisSelfTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/co/test/DorisTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/co/test/Test2.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/co/test/TestCdc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/co/test/MysqlCdcTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/co/test/TestNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/co/test/DorisSinkTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/utils/ExecuteSqlProcess.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/utils/ExecuteSqlProcess.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/co/test/DorisSinkTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/co/test/DorisSinkTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/co/test/TestSqlCdc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/co/test/TestSqlCdc.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -64,7 +75,8 @@
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
-        <option name="localRepository" value="E:\maven\.m2\repository" />
+        <option name="localRepository" value="C:\Users\admin\.m2\repository" />
+        <option name="userSettingsFile" value="C:\Users\admin\.m2\settings.xml" />
       </MavenGeneralSettings>
     </option>
   </component>
@@ -84,7 +96,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="go.import.settings.migrated" value="true" />
-    <property name="last_opened_file_path" value="E:/dailywork/文档-apache/doris/flink-doris-connector-1.13_2.11-1.0.0-SNAPSHOT.jar" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/org/apache/flink/connector/jdbc/table" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
@@ -94,6 +106,8 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\idea_files\demo_files\currencyAppJar\src\main\java\org\apache\flink\connector\jdbc\table" />
+      <recent name="F:\idea_files\demo_files\currencyAppJar\src\main\java" />
       <recent name="F:\idea_files\demo_files\currencyAppJar\src\main\java\org\apache\flink\connector\jdbc\internal\converter" />
       <recent name="F:\idea_files\demo_files\currencyAppJar\src\main\java\org\apache\flink\connector\jdbc\dialect" />
     </key>
@@ -102,37 +116,14 @@
       <recent name="F:\idea_files\demo_files\currencyAppJar\src\main\java" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="co.test" />
       <recent name="com.app.func" />
+      <recent name="org.apache.flink.connector.jdbc.internal.options" />
+      <recent name="org.apache.flink.connector.jdbc.dialect" />
       <recent name="com.app.utils" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.TestSqlCdc">
-    <configuration name="DataTypeProcess" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.app.entity.DataTypeProcess" />
-      <module name="currencyAppJar" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.app.entity.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="DorisConvertValue" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.app.convert.DorisConvertValue" />
-      <module name="currencyAppJar" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.app.convert.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="Application.TestSqlCdcNoChain">
     <configuration name="DorisSinkTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="co.test.DorisSinkTest" />
       <module name="currencyAppJar" />
@@ -146,12 +137,25 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="OracleCdcTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="co.test.OracleCdcTest" />
+    <configuration name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="co.ds.Test" />
       <module name="currencyAppJar" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="co.test.*" />
+          <option name="PATTERN" value="co.ds.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Test2" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="co.ds.test.Test2" />
+      <module name="currencyAppJar" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="co.ds.test.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -172,24 +176,39 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+    <configuration name="TestSqlCdcNoChain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="co.test.TestSqlCdcNoChain" />
+      <module name="currencyAppJar" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="co.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.TestSqlCdcNoChain" />
+        <item itemvalue="Application.Test2" />
+        <item itemvalue="Application.Test" />
         <item itemvalue="Application.TestSqlCdc" />
-        <item itemvalue="Application.DorisConvertValue" />
-        <item itemvalue="Application.OracleCdcTest" />
         <item itemvalue="Application.DorisSinkTest" />
-        <item itemvalue="Application.DataTypeProcess" />
       </list>
     </recent_temporary>
   </component>
@@ -271,7 +290,20 @@
       <workItem from="1660792593624" duration="2090000" />
       <workItem from="1660811193350" duration="887000" />
       <workItem from="1661753866540" duration="102494000" />
-      <workItem from="1662339660922" duration="61764000" />
+      <workItem from="1662339660922" duration="80723000" />
+      <workItem from="1662704005830" duration="116000" />
+      <workItem from="1663145779437" duration="471000" />
+      <workItem from="1663203603709" duration="2078000" />
+      <workItem from="1663212923751" duration="1246000" />
+      <workItem from="1663229124144" duration="3180000" />
+      <workItem from="1663665943859" duration="1567000" />
+      <workItem from="1664331338240" duration="1733000" />
+      <workItem from="1667790103210" duration="131000" />
+      <workItem from="1667800349878" duration="1726000" />
+      <workItem from="1667803067755" duration="1161000" />
+      <workItem from="1671416155995" duration="1234000" />
+      <workItem from="1672304404854" duration="1731000" />
+      <workItem from="1672714663263" duration="8711000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <created>1636960539098</created>
@@ -378,7 +410,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662604291607</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="222">
+      <created>1662621072099</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1662621072099</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -442,6 +481,31 @@
             <State />
           </value>
         </entry>
+        <entry key="e0aa4ae5-b563-4b5b-b06c-9093eb6f1729">
+          <value>
+            <State>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="roots">
+                    <value>
+                      <list>
+                        <option value="$PROJECT_DIR$" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
         <entry key="eede8893-bb5b-4bf0-b44c-b55f8c4f567c">
           <value>
             <State>
@@ -471,6 +535,7 @@
     </option>
     <option name="OPEN_GENERIC_TABS">
       <map>
+        <entry key="e0aa4ae5-b563-4b5b-b06c-9093eb6f1729" value="TOOL_WINDOW" />
         <entry key="eede8893-bb5b-4bf0-b44c-b55f8c4f567c" value="TOOL_WINDOW" />
       </map>
     </option>
@@ -501,9 +566,9 @@
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/app/func/ChainFlatMapFunc.java</url>
-          <line>36</line>
-          <option name="timeStamp" value="15" />
+          <url>file://$PROJECT_DIR$/src/test/java/co/ds/Test.java</url>
+          <line>12</line>
+          <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

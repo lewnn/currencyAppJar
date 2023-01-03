@@ -133,6 +133,10 @@ public abstract class FlinkConstant {
     }
 
     public static String getExecuteAllSqlConfig() {
+        return " SELECT  name ,connect_info as value from dbase_database WHERE connect_info  is not NULL  and connect_info != '' " +
+                " union  SELECT  name,value  from dlink_variable dv  WHERE  dv.enabled  = 1 ";
+    }
+    public static String getExecuteSqlPreparedPara() {
         return " SELECT  name ,connect_info from dbase_database WHERE connect_info  is not NULL  and connect_info != '' ";
     }
 
@@ -167,5 +171,10 @@ public abstract class FlinkConstant {
      * isnert语句的其实判断
      */
     public static final String CDC_SQL = "CDC";
+
+    /**
+     * 更新字段名称 key
+     */
+    public static final String UPDATE_TIME_COL = "cus.sink.update.col.";
 
 }

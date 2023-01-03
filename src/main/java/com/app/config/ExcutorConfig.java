@@ -10,7 +10,7 @@ public abstract class ExcutorConfig {
 //    public final static  String MYSQL_IP = "10.10.10.206"; //东阿
 //    public final static  String MYSQL_IP = "10.10.21.18"; //聊城二院
 
-    public final static DorisVersionEnum DORIS_VERSION = DorisVersionEnum.V1_1_1;
+    public final static DorisVersionEnum DORIS_VERSION = DorisVersionEnum.V1_1_2;
     /**
      * 用户
      */
