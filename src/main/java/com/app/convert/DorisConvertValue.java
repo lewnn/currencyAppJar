@@ -24,7 +24,7 @@ public class DorisConvertValue {
             int num = 1;
             if (timePrecision == 11) {
                 num = 1000 * 1000;
-            } else if (timePrecision == 7) {
+            } else{
                 num = 1000;
             }
             return TimestampData.fromTimestamp(Timestamp.valueOf(LocalDateTime.ofEpochSecond((long) value / num, 0, ZoneOffset.ofHours(timeZone))));

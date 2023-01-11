@@ -1,6 +1,9 @@
 package com.app.utils;
 
 import com.app.MainApp;
+import com.app.cdc.BaseCdc;
+import com.app.cdc.MysqlCdc;
+import com.app.cdc.OracleCdc;
 import com.app.config.ExcutorConfig;
 import com.app.constant.FlinkConstant;
 import com.app.entity.DataTypeProcess;
@@ -8,10 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -154,24 +154,65 @@ public class ExecuteSqlProcess {
     }
 
 
-    public static void loadSchema(String id) {
+    public static void loadSchema(BaseCdc baseCdc) {
+        MainApp.dataSchema.clear();
+        String reg = "\\(\\d+\\)";
         try {
-            Connection con = ConUtil.getConn(ExcutorConfig.DRIVER, ExcutorConfig.URL, ExcutorConfig.MYSQL_USER, ExcutorConfig.MYSQL_PASSWORD);
+            Connection con = getConnection(baseCdc);
             Statement statement = con.createStatement();
-            ResultSet resultSet = statement.executeQuery(FlinkConstant.getTableSchemaSql(id));
-            List<DataTypeProcess> res = new ArrayList<>();
-            String tableName = "";
-            while (resultSet.next()) {
-                res.add(new DataTypeProcess(resultSet.getString("name"),
-                        resultSet.getString("dt"))
-                        .setPrecisionAndScale(resultSet.getInt("dl"), resultSet.getInt("ds")));
-                tableName = resultSet.getString("tn") == null ? "" : resultSet.getString("tn");
+            for (String table : baseCdc.getTables().split(",")) {
+                if (table.contains(".")) {
+                    table = table.split("\\.")[1];
+                }
+                ResultSet resultSet = statement.executeQuery(baseCdc.getTablesColumnsInfo(baseCdc.getDataBaseName(), table));
+                List<DataTypeProcess> res = new ArrayList<>();
+                while (resultSet.next()) {
+                    Integer len = null;
+                    if (resultSet.getObject("varlen") != null) {
+                        len = resultSet.getInt("varlen");
+                    }
+                    if (resultSet.getObject("numlen") != null) {
+                        len = resultSet.getInt("numlen");
+                    }
+                    String type = resultSet.getString("type");
+                    res.add(new DataTypeProcess(resultSet.getString("col"),
+                            type.replaceAll(reg, ""))
+                            .setPrecisionAndScale(len, resultSet.getInt("scale")));
+                }
+                String sinkTableName = baseCdc.getSinkTableName();
+                String tableName = (!sinkTableName.isEmpty() ? sinkTableName : baseCdc.getPrefix() + table).toUpperCase();
+                MainApp.dataSchema.put(tableName, res);
+                resultSet.close();
             }
-            MainApp.dataSchema.put(tableName, res);
-            ConUtil.close(con, statement, resultSet);
-        } catch (IOException | SQLException e) {
+            ConUtil.close(con, statement);
+
+        } catch (IOException | SQLException | ClassNotFoundException e) {
             logger.error("获取schema出错", e);
             e.printStackTrace();
         }
+    }
+
+    /**
+     * @return java.sql.Connection
+     * @author lcg
+     * @operate 获取对应连接
+     * @date 2023/1/6 17:28
+     */
+    private static Connection getConnection(BaseCdc baseCdc) throws IOException, ClassNotFoundException, SQLException {
+        String driver = "";
+        String url = "";
+        if (MysqlCdc.type.equals(baseCdc.getType())) {
+            driver = ExcutorConfig.DRIVER;
+            url = ExcutorConfig.BARE_URL_START + baseCdc.getHostname() + ":" + baseCdc.getPort() + "/" + baseCdc.getDataBaseName() + ExcutorConfig.BARE_URL_END;
+        } else if (OracleCdc.type.equals(baseCdc.getType())) {
+            driver = ExcutorConfig.ORACLE_DRIVER;
+            url = ExcutorConfig.ORACLE_BARE_URL_START + baseCdc.getHostname() + ":" + baseCdc.getPort() + ":" + baseCdc.getDataBaseName();
+        } else {
+            throw new RuntimeException("不支持的数据源" + baseCdc.getType());
+        }
+        return ConUtil.getConn(driver,
+                url,
+                baseCdc.getUserName(),
+                baseCdc.getPassword());
     }
 }

@@ -16,7 +16,7 @@ public class FlinkSqlCheck {
      * @date 2022/8/29 16:04
      * @return boolean
      */
-    public static boolean getSqlCdcChainMode(List<String> sqlList) {
+    public static boolean getSqlCdcMode(List<String> sqlList) {
         return sqlList.size() == 1 && sqlList.get(0).toUpperCase().contains("CDCTABLE");
     }
 

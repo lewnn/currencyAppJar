@@ -6,34 +6,38 @@ import org.apache.doris.flink.sink.writer.RowDataSerializer;
 import org.apache.doris.flink.table.DorisDynamicTableFactory;
 import org.apache.flink.table.data.RowData;
 import org.apache.flink.table.types.DataType;
-import java.util.Properties;
 
+import java.util.Properties;
+import java.util.Random;
 
 public class CusDorisSinkBuilder {
-    public DorisSink<RowData> newDorisSink(String tableName, Properties properties,String[] fields,  DataType[] types) {
-        String columns = String.join(",",fields) + ",__DORIS_DELETE_SIGN__";
+    public DorisSink<RowData> newDorisSink(String tableName, Properties properties, String[] fields, DataType[] types) {
+        String columns = String.join(",", fields) + ",__DORIS_DELETE_SIGN__";
         Properties steamLoadProp = getSteamLoadProp(properties);
         steamLoadProp.put("columns", columns);
         DorisSink.Builder<RowData> builder = DorisSink.builder();
-        return  builder.setDorisReadOptions(DorisReadOptions.builder().build())
-                .setDorisExecutionOptions( DorisExecutionOptions.builder().disable2PC()
-                        .setStreamLoadProp(steamLoadProp).build())
+        DorisExecutionOptions.Builder executionBuilder = DorisExecutionOptions.builder();
+        executionBuilder.disable2PC().setLabelPrefix(tableName + "_" + new Random().nextInt(100))
+                .setStreamLoadProp(steamLoadProp).build();
+
+        return builder.setDorisReadOptions(DorisReadOptions.builder().build())
+                .setDorisExecutionOptions(executionBuilder.build())
                 .setSerializer(RowDataSerializer.builder()
                         .setFieldNames(fields)
                         .enableDelete(true)
                         .setType("json")
                         .setFieldType(types).build())
-                .setDorisOptions( DorisOptions.builder().setFenodes(properties.getProperty(ConfigurationOptions.DORIS_FENODES))
+                .setDorisOptions(DorisOptions.builder().setFenodes(properties.getProperty(ConfigurationOptions.DORIS_FENODES))
                         .setTableIdentifier(properties.getProperty("cus.sink.db") + "." + tableName)
                         .setUsername(properties.getProperty(ConfigurationOptions.DORIS_USER))
                         .setPassword(properties.getProperty(ConfigurationOptions.DORIS_PASSWORD)).build()).build();
 
     }
 
-    public Properties getSteamLoadProp(Properties properties){
+    public Properties getSteamLoadProp(Properties properties) {
         Properties res = new Properties();
-        properties.forEach((key, value) ->{
-            if(key.toString().startsWith(DorisDynamicTableFactory.STREAM_LOAD_PROP_PREFIX)){
+        properties.forEach((key, value) -> {
+            if (key.toString().startsWith(DorisDynamicTableFactory.STREAM_LOAD_PROP_PREFIX)) {
                 res.put(key.toString().replace(DorisDynamicTableFactory.STREAM_LOAD_PROP_PREFIX, ""), value);
             }
         });

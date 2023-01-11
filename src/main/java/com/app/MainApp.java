@@ -46,7 +46,7 @@ public class MainApp {
             String[] ids = idParas.split(",");
             envConfig = ExecuteSqlProcess.getExecuteSql(ids, flinkSqlList);
             boolean sqlMultiInsert = FlinkSqlCheck.getSqlMultiInsertMode(flinkSqlList);
-            boolean cdcChain = FlinkSqlCheck.getSqlCdcChainMode(flinkSqlList);
+            boolean cdcMode = FlinkSqlCheck.getSqlCdcMode(flinkSqlList);
             if (flinkSqlList.isEmpty()) {
             } else if (sqlMultiInsert) {
                 List<String> sourceSql = new ArrayList<>();
@@ -54,8 +54,9 @@ public class MainApp {
                 FlinkSqlCheck.getSqlMultiInsertAndCreate(flinkSqlList, sourceSql, sinkSql);
                 executeSql(sourceSql, sinkSql, envConfig);
                 logger.info("合并模式任务提交结束");
-            } else if (cdcChain) {
+            } else if (cdcMode) {
                 BaseCdc baseCdc = BaseCdc.getInstance(flinkSqlList.get(0), ids[0].split(",")[0]);
+                baseCdc.loadTableSchema();//加载表结构
                 ConcurrentHashMap<String, OutputTag<Map>> outputTagMap = new ConcurrentHashMap<>();
                 for (String tag : baseCdc.getTables().split(",")) {
                     outputTagMap.put(tag, new OutputTag<Map>(tag) {

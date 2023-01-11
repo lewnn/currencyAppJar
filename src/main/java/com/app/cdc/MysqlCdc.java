@@ -1,61 +1,15 @@
 package com.app.cdc;
 
-
 import com.ververica.cdc.connectors.mysql.source.MySqlSource;
-import com.ververica.cdc.debezium.StringDebeziumDeserializationSchema;
+import com.ververica.cdc.debezium.JsonDebeziumDeserializationSchema;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import java.util.Properties;
+
+import java.util.HashMap;
 
 public class MysqlCdc extends BaseCdc {
     public static String type = "mysql-cdc";
-
-    @Override
-    public String getConnect() {
-        return null;
-    }
-
-    @Override
-    public int getPort() {
-        return 0;
-    }
-
-    @Override
-    public String getUserName() {
-        return null;
-    }
-
-    @Override
-    public String getPassword() {
-        return null;
-    }
-
-    @Override
-    public String getDataBase() {
-        return null;
-    }
-
-    @Override
-    public String getDataBaseName() {
-        return null;
-    }
-
-    @Override
-    public String getHostname() {
-        return null;
-    }
-
-    @Override
-    public Properties getDebeziumProperties() {
-        return null;
-    }
-
-
-    @Override
-    public String getTables() {
-        return null;
-    }
 
     @Override
     public String getType() {
@@ -63,68 +17,50 @@ public class MysqlCdc extends BaseCdc {
     }
 
     @Override
-    public String getPrefix() {
-        return null;
+    public boolean checkSourceAndDb(HashMap source) {
+        return source.containsKey("db") && source.containsKey("table");
     }
 
     @Override
-    public Properties getSinkProp() {
-        return null;
+    public String getOutputTagName(HashMap source) {
+        return source.get("db") + "." + source.get("table");
     }
 
     @Override
-    public int getTimePrecision() {
-        return 0;
-    }
-
-    @Override
-    public int getTimeZone() {
-        return 0;
-    }
-
-    @Override
-    public String getSinkEndTimeName() {
-        return null;
-    }
-
-    @Override
-    public Long getCheckpointing() {
-        return 0L;
-    }
-
-    @Override
-    public Boolean isOpenChain() {
-        return Boolean.valueOf(cdcProper.getProperty("cus.open.chain"));
-    }
-
-    @Override
-    public String getSinkTableName() {
-        return null;
+    public String getTablesColumnsInfo(String db, String tableName) {
+        return "SELECT    COLUMN_NAME AS 'col',DATA_TYPE AS 'type', " +
+                "    CHARACTER_MAXIMUM_LENGTH AS 'varlen',NUMERIC_PRECISION AS 'numlen', " +
+                "    NUMERIC_SCALE AS 'scale' " +
+                "FROM  " +
+                "    information_schema.`COLUMNS` " +
+                "WHERE " +
+                "    TABLE_SCHEMA =  '" + db + "'" +
+                "    and TABLE_NAME= '" + tableName + "'" +
+                "    ORDER by ORDINAL_POSITION";
     }
 
 
-    private MysqlCdc(String sql, String idParas) {
-        loadTableSchema(idParas);
+    private MysqlCdc(String sql) {
         parseConfig(sql);
     }
 
-    public static MysqlCdc getInstance(String sql, String idParas) {
-        return new MysqlCdc(sql, idParas);
+    public static MysqlCdc getInstance(String sql) {
+        return new MysqlCdc(sql);
     }
 
     @Override
     public DataStream<String> addSource(StreamExecutionEnvironment environment) {
-        MySqlSource<String> oracleSource = MySqlSource.<String>builder()
+        MySqlSource<String> mySqlSource = MySqlSource.<String>builder()
                 .hostname(this.getHostname())
                 .port(this.getPort())
-                .databaseList(this.getDataBase().split(","))
+                .databaseList(this.getDataBaseName().split(","))
                 .tableList(this.getTables().split(","))
                 .username(this.getUserName())
                 .password(this.getPassword())
                 .serverTimeZone("UTC")  //时区
                 .debeziumProperties(this.getDebeziumProperties())
-                .deserializer(new StringDebeziumDeserializationSchema())
+                .deserializer(new JsonDebeziumDeserializationSchema())
                 .build();
-       return environment.fromSource(oracleSource, WatermarkStrategy.noWatermarks(), "mysql-source");
+       return environment.fromSource(mySqlSource, WatermarkStrategy.noWatermarks(), "mysql-source");
     }
 }

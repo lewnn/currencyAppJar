@@ -3,7 +3,6 @@ package com.app.executor;
 import com.app.MainApp;
 import com.app.cdc.BaseCdc;
 import com.app.entity.DataTypeProcess;
-import com.app.func.ChainFlatMapFunc;
 import com.app.func.FlatMapBuilder;
 import com.app.sink.CusDorisSinkBuilder;
 import org.apache.flink.api.common.functions.MapFunction;
@@ -33,7 +32,7 @@ public class CdcExecutor implements Serializable {
         environment.enableCheckpointing(20000);
         DataStream<String> startStream = baseCdc.addSource(environment);
         //旁路输出
-        SingleOutputStreamOperator<HashMap> afterTag = process(startStream);
+        SingleOutputStreamOperator<HashMap> afterTag = process(startStream, baseCdc);
         //旁路输出 处理
         processTagAndAddSink(afterTag, baseCdc);
 
@@ -45,21 +44,21 @@ public class CdcExecutor implements Serializable {
             OutputTag<Map> data = stringOutputTagEntry.getValue();
             String id = data.getId();
             String sinkTableName = baseCdc.getSinkTableName();
-            String tableName = !sinkTableName.isEmpty() ? sinkTableName : baseCdc.getPrefix() + id.split("\\.")[1];
+            String tableName = (!sinkTableName.isEmpty() ? sinkTableName : baseCdc.getPrefix() + id.split("\\.")[1]).toUpperCase();
             //字段名称及数据类型
             List<DataTypeProcess> dataTypeInfo = MainApp.dataSchema.get(tableName);
-            String[] field = getFields(dataTypeInfo, baseCdc.getSinkEndTimeName());
-            DataType[] types = getTypeList(dataTypeInfo);
+            String[] field = getFields(dataTypeInfo, baseCdc);
+            DataType[] types = getTypeList(dataTypeInfo, baseCdc);
             afterTag.getSideOutput(data)
                     .flatMap(FlatMapBuilder.builder(baseCdc).setType(dataTypeInfo, types).build()).setParallelism(1)
-                    .sinkTo(new CusDorisSinkBuilder().newDorisSink(tableName, baseCdc.getSinkProp(), field, types)).setParallelism(1);
-            environment.execute("cdc table " + tableName);
+                    .sinkTo(new CusDorisSinkBuilder().newDorisSink(tableName, baseCdc.getSinkProp(), field, types)).setParallelism(1).name(tableName);
         }
+        environment.executeAsync(!baseCdc.getJobName().isEmpty() ? baseCdc.getJobName() : "CDC JOBS");
     }
 
 
     //数据格式处理 && 旁路输出
-    private SingleOutputStreamOperator<HashMap> process(DataStream<String> startStream) {
+    private SingleOutputStreamOperator<HashMap> process(DataStream<String> startStream, BaseCdc baseCdc) {
         return startStream
                 .map((MapFunction<String, HashMap>) value -> new ObjectMapper().readValue(value, HashMap.class)).returns(HashMap.class).setParallelism(1)
                 .process(new ProcessFunction<HashMap, HashMap>() {
@@ -67,8 +66,8 @@ public class CdcExecutor implements Serializable {
                     public void processElement(HashMap value, Context context, Collector<HashMap> collector) {
                         if (value.containsKey("source")) {
                             HashMap source = (HashMap) value.get("source");
-                            if (source.containsKey("schema") && source.containsKey("table")) {
-                                context.output(new OutputTag<Map>(source.get("schema") + "." + source.get("table")) {
+                            if (baseCdc.checkSourceAndDb(source)) {
+                                context.output(new OutputTag<Map>(baseCdc.getOutputTagName(source)) {
                                 }, value);
                             }
                         }
@@ -76,25 +75,35 @@ public class CdcExecutor implements Serializable {
                 }).setParallelism(1);
     }
 
-    private String[] getFields(List<DataTypeProcess> dataTypeInfo, String name) {
+    private String[] getFields(List<DataTypeProcess> dataTypeInfo, BaseCdc baseCdc) {
         List<String> fieldList = new ArrayList<>();
         for (DataTypeProcess dataType : dataTypeInfo) {
             fieldList.add(dataType.getName());
         }
-        String[] field = fieldList.toArray(new String[fieldList.size() + 1]);
-        field[fieldList.size()] = name;
+        String[] field;
+        if (baseCdc.isOpenChain()) {
+            field = fieldList.toArray(new String[fieldList.size() + 1]);
+            field[fieldList.size()] = baseCdc.getSinkEndTimeName();
+        } else {
+            field = fieldList.toArray(new String[fieldList.size()]);
+        }
         return field;
     }
 
 
-    private DataType[] getTypeList(List<DataTypeProcess> dataTypeInfo) {
+    private DataType[] getTypeList(List<DataTypeProcess> dataTypeInfo, BaseCdc baseCdc) {
         List<DataType> typeList = new ArrayList<>();
         for (DataTypeProcess dataType : dataTypeInfo) {
             typeList.add(dataType.getDataType());
         }
-        DataType[] types = typeList.toArray(new DataType[typeList.size() + 1]);
-        //field的属性
-        types[typeList.size()] = DataTypes.VARCHAR(30);
+        DataType[] types;
+        if (baseCdc.isOpenChain()) {
+            types = typeList.toArray(new DataType[typeList.size() + 1]);
+            //field的属性
+            types[typeList.size()] = DataTypes.VARCHAR(30);
+        } else {
+            types = typeList.toArray(new DataType[typeList.size()]);
+        }
         return types;
     }
 

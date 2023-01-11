@@ -29,7 +29,7 @@ public class DataTypeProcess implements Serializable {
     }
 
     public Integer getPrecision() {
-        return this.precision;
+        return this.precision == null ? 0 : this.precision;
     }
 
     enum OracleDataTypeEnum {
@@ -102,6 +102,78 @@ public class DataTypeProcess implements Serializable {
         }
     }
 
+    enum MysqlDataTypeEnum {
+        VARCHAR("STRING", new VarCharType(255)),
+        STRING("STRING", new VarCharType(255)),
+        VARCHAR2("STRING", new VarCharType(255)),
+        TIMESTAMP("TIMESTAMP", new TimestampType()),
+        DATETIME("DATETIME", new TimestampType()),
+        DATE("TIMESTAMP", new TimestampType()),
+        DECIMAL("DECIMAL", new DecimalType()),
+        INT("INT", new IntType());
+        String type;
+        LogicalType logicalType;
+
+        MysqlDataTypeEnum(String type, LogicalType logicalType) {
+            this.type = type;
+            this.logicalType = logicalType;
+        }
+
+        private MysqlDataTypeEnum getType(DataTypeProcess dataType) {
+            for (MysqlDataTypeEnum value : MysqlDataTypeEnum.values()) {
+                if (value.name().contains(dataType.type.toUpperCase())
+                        || value.type.contains(dataType.type.toUpperCase())) {
+                    return value;
+                }
+            }
+            return null;
+        }
+
+        public LogicalType getData(DataTypeProcess dataType) {
+            switch (getType(dataType)) {
+                case STRING:
+                case VARCHAR:
+                case VARCHAR2:
+                    return new VarCharType(dataType.precision);
+                case TIMESTAMP:
+                case DATE:
+                case DATETIME:
+                    return DATETIME.logicalType;
+                case INT:
+                    return INT.logicalType;
+                case DECIMAL:
+                    if (dataType.scale != null) {
+                        return new DecimalType(dataType.precision, dataType.scale);
+                    } else {
+                        return new DecimalType();
+                    }
+                default:
+                    return new VarCharType(255);
+            }
+
+        }
+
+        public DataType getEnumsData(DataTypeProcess dataType) {
+            switch (getType(dataType)) {
+                case STRING:
+                case VARCHAR:
+                case VARCHAR2:
+                    return DataTypes.VARCHAR(dataType.precision);
+                case TIMESTAMP:
+                case DATE:
+                case DATETIME:
+                    return DataTypes.TIMESTAMP();
+                case INT:
+                    return DataTypes.INT();
+                case DECIMAL:
+                    return DataTypes.DECIMAL(dataType.precision, dataType.scale == null ? 0 : dataType.scale);
+                default:
+                    return DataTypes.VARCHAR(255);
+            }
+
+        }
+    }
+
     /**
      * @author lcg
      * @operate 获取列类型的数据类型
@@ -113,5 +185,15 @@ public class DataTypeProcess implements Serializable {
 
     public DataType getDataType() {
         return OracleDataTypeEnum.DATETIME.getEnumsData(this);
+    }
+
+    @Override
+    public String toString() {
+        return "DataTypeProcess{" +
+                "name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", precision=" + precision +
+                ", scale=" + scale +
+                '}';
     }
 }

@@ -71,5 +71,9 @@ public class ConUtil {
        close(statement);
        close();
     }
+    public static void close(Connection conn, Statement statement) {
+        close(statement);
+        close();
+    }
 
 }

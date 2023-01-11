@@ -6,7 +6,7 @@ public abstract class ExcutorConfig {
     /**
      * mysql的ip
      */
-    public final static  String MYSQL_IP = "10.1.51.25";
+    public final static String MYSQL_IP = "10.1.51.25";
 //    public final static  String MYSQL_IP = "10.10.10.206"; //东阿
 //    public final static  String MYSQL_IP = "10.10.21.18"; //聊城二院
 
@@ -31,14 +31,22 @@ public abstract class ExcutorConfig {
      * 驱动
      */
     public final static String DRIVER = "com.mysql.cj.jdbc.Driver";
+
+    public final static String ORACLE_DRIVER = "oracle.jdbc.OracleDriver";
     /**
      * URL
      */
-    public final static String URL = "jdbc:mysql://" + MYSQL_IP + ":" + MYSQL_PORT+ "/" + MYSQL_USER + "?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai";
+    public final static String URL = "jdbc:mysql://" + MYSQL_IP + ":" + MYSQL_PORT + "/" + MYSQL_USER + "?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai";
+
+    public final static String BARE_URL_START = "jdbc:mysql://";
+
+    public final static String ORACLE_BARE_URL_START = "jdbc:oracle:thin:@";
+
+    public final static String BARE_URL_END = "?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai";
     /**
-     *  DIM的URL
+     * DIM的URL
      */
-    public final static String DIM_URL = "jdbc:mysql://" + MYSQL_IP + ":" + MYSQL_PORT+ "/" + MYSQL_DIM_USER + "?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai";
+    public final static String DIM_URL = "jdbc:mysql://" + MYSQL_IP + ":" + MYSQL_PORT + "/" + MYSQL_DIM_USER + "?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai";
 
 
 }

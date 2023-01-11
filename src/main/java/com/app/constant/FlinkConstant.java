@@ -57,7 +57,7 @@ public abstract class FlinkConstant {
     public final static String UDF_GET_KEY = "GET_KEY";
 
     //自定义函数列表
-    public final static ArrayList<String> UDF_LIST = new ArrayList<>(Arrays.asList(UDF_TO_DICT_MAPPING, UDF_TO_MAP, UDF_GET_KEY, UDF_TO_GET_VALUE_BY_KEY,UDF_TO_GET_DAY_GAP));
+    public final static ArrayList<String> UDF_LIST = new ArrayList<>(Arrays.asList(UDF_TO_DICT_MAPPING, UDF_TO_MAP, UDF_GET_KEY, UDF_TO_GET_VALUE_BY_KEY, UDF_TO_GET_DAY_GAP));
 
     /**
      * 根据数据里的源code获取目标code
@@ -136,16 +136,30 @@ public abstract class FlinkConstant {
         return " SELECT  name ,connect_info as value from dbase_database WHERE connect_info  is not NULL  and connect_info != '' " +
                 " union  SELECT  name,value  from dlink_variable dv  WHERE  dv.enabled  = 1 ";
     }
+
     public static String getExecuteSqlPreparedPara() {
         return " SELECT  name ,connect_info from dbase_database WHERE connect_info  is not NULL  and connect_info != '' ";
     }
 
     public static String getTableSchemaSql(String sqlId) {
 //        return " SELECT  dc.name,`data_type` dt, dt2.name as tn, dc.data_length  dl,dc.data_scale ds from dlink_columns dc , dlink_flink_sql dfs,dlink_trans  dt ,dlink_tables dt2  WHERE  dc.table_id=dt.table_id and dt.id = dfs.trans_id and dt2.id=dt.table_id and dfs.id=" + sqlId;
-        return "SELECT  dc.name,data_type dt, dt2.name as tn, dc.data_length  dl,dc.data_scale ds, dc.is_pk pk from dlink_columns dc , dlink_flink_sql dfs,dlink_trans  dt ,dlink_tables dt2  WHERE  dc.table_id=dt.table_id and dt.id = dfs.trans_id and dt2.id=dt.table_id and dfs.id="+ sqlId;
+        return "SELECT  dc.name,data_type dt, dt2.name as tn, dc.data_length  dl,dc.data_scale ds, dc.is_pk pk from dlink_columns dc , dlink_flink_sql dfs,dlink_trans  dt ,dlink_tables dt2  WHERE  dc.table_id=dt.table_id and dt.id = dfs.trans_id and dt2.id=dt.table_id and dfs.id=" + sqlId;
     }
+
     public static String getDictExecuteSql(String dictStr) {
         return sqlQueryMysql + " where source_dict in " + dictStr + " or target_dict in " + dictStr;
+    }
+
+    public static String getTablesColumnsInfo(String dbName, String tableName) {
+        return "SELECT    COLUMN_NAME AS 'col',DATA_TYPE AS 'type', " +
+                "    CHARACTER_MAXIMUM_LENGTH AS 'varlen',NUMERIC_PRECISION AS 'numlen', " +
+                "    NUMERIC_SCALE AS 'scale' " +
+                "FROM  " +
+                "    information_schema.`COLUMNS` " +
+                "WHERE " +
+                "    TABLE_SCHEMA =  '" + dbName + "'" +
+                "    and TABLE_NAME= '" + tableName + "'" +
+                "    ORDER by ORDINAL_POSITION";
     }
 
     /**

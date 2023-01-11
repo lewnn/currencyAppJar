@@ -1,58 +1,125 @@
 package com.app.cdc;
 
+import com.app.constant.CdcConstant;
 import com.app.utils.ExecuteSqlProcess;
+import org.apache.doris.flink.table.DorisDynamicTableFactory;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public abstract class BaseCdc {
+public abstract class BaseCdc implements Serializable {
 
     protected Properties cdcProper = new Properties();
 
-    public abstract String getConnect();
+    public String getConnect() {
+        return cdcProper.getProperty("connector");
+    }
 
-    public abstract int getPort();
+    public int getPort() {
+        return Integer.parseInt(cdcProper.getProperty("port"));
+    }
 
-    public abstract String getUserName();
+    public String getUserName() {
+        return cdcProper.getProperty("username");
+    }
 
-    public abstract String getPassword();
+    public String getPassword() {
+        return cdcProper.getProperty("password");
+    }
 
-    public abstract String getDataBase();
+    public String getSchemaName() {
+        return "";
+    }
 
-    public abstract String getDataBaseName();
+    public String getDataBaseName() {
+        return cdcProper.getProperty("database-name");
+    }
 
-    public abstract String getHostname();
+    public String getHostname() {
+        return cdcProper.getProperty("hostname");
+    }
 
-    public abstract Properties getDebeziumProperties();
+    public Properties getDebeziumProperties() {
+        Properties properties = new Properties();
+        for (Object o : cdcProper.keySet()) {
+            String proKey = o.toString();
+            if (proKey.startsWith(CdcConstant.DEBEZIUM)) {
+                properties.setProperty(proKey.replace("debezium.", ""), cdcProper.getProperty(proKey));
+            }
+        }
+        return properties;
+    }
 
-    public abstract String getTables();
+    public  String getTables(){
+        return cdcProper.getProperty("table-name");
+    }
 
     public abstract String getType();
 
-    public abstract String getPrefix();
+    public abstract boolean checkSourceAndDb(HashMap source);
 
-    public abstract Properties getSinkProp();
+    public abstract String getOutputTagName(HashMap source);
 
-    public abstract int getTimePrecision();
 
-    public abstract int getTimeZone();
-
-    protected void loadTableSchema(String idParas) {
-        ExecuteSqlProcess.loadSchema(idParas);
+    public  String getPrefix(){
+        return cdcProper.getProperty("cus.table.prefix");
     }
 
-    public abstract String getSinkEndTimeName();
+    public  Properties getSinkProp(){
+        Properties properties = new Properties();
+        for (Object o : cdcProper.keySet()) {
+            String proKey = o.toString();
+            if (proKey.startsWith(CdcConstant.SINK_PROP)) {
+                properties.setProperty(proKey.replace(CdcConstant.SINK_PROP, ""), cdcProper.getProperty(proKey));
+            }
+            if (proKey.startsWith(DorisDynamicTableFactory.STREAM_LOAD_PROP_PREFIX)) {
+                properties.setProperty(proKey, cdcProper.getProperty(proKey));
+            }
+        }
+        return properties;
+    };
 
-    public abstract Long getCheckpointing();
+    public  int getTimePrecision(){
+        return Integer.parseInt(cdcProper.getProperty("cus.time.precision", "1000"));
+    }
 
-    public abstract Boolean isOpenChain();
+    public  int getTimeZone(){
+        return Integer.parseInt(cdcProper.getProperty("cus.time.zone", "0"));
+    }
 
-    public abstract String getSinkTableName();
+    public void loadTableSchema() {
+        ExecuteSqlProcess.loadSchema(this);
+    }
+
+    public String getSinkEndTimeName() {
+        return cdcProper.getProperty("chain.end.name");
+    }
+
+    public Long getCheckpointing() {
+        return Long.valueOf(cdcProper.getProperty("cus.time.checkpointing"));
+    }
+
+    public Boolean isOpenChain() {
+        return Boolean.valueOf(cdcProper.getProperty("cus.open.chain"));
+    }
+
+    public String getSinkTableName() {
+        return String.valueOf(cdcProper.getOrDefault("sink.prop.cus.sink.table", ""));
+    }
+
+
+    public abstract String getTablesColumnsInfo(String db, String tableName);
+
+    public String getJobName(){
+        return cdcProper.getOrDefault("pipeline.name","").toString();
+    };
 
     public abstract DataStream<String> addSource(StreamExecutionEnvironment environment);
 
@@ -77,9 +144,9 @@ public abstract class BaseCdc {
 
     public static BaseCdc getInstance(String sql, String idParas) {
         if (sql.toUpperCase().contains(MysqlCdc.type.toUpperCase())) {
-            return MysqlCdc.getInstance(sql, idParas);
+            return MysqlCdc.getInstance(sql);
         } else if (sql.toUpperCase().contains(OracleCdc.type.toUpperCase())) {
-            return OracleCdc.getInstance(sql, idParas);
+            return OracleCdc.getInstance(sql);
         } else {
             throw new RuntimeException("获取cdc数据库类型失败");
         }

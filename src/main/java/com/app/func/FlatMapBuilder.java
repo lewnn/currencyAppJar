@@ -1,6 +1,7 @@
 package com.app.func;
 
 import com.app.cdc.BaseCdc;
+import com.app.cdc.MysqlCdc;
 import com.app.entity.DataTypeProcess;
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.table.data.RowData;
@@ -39,6 +40,12 @@ public class FlatMapBuilder {
                     baseCdc.getTimePrecision(),
                     baseCdc.getTimeZone());
         } else {
+            if(MysqlCdc.type.equals(baseCdc.getType())){
+                return new CusMysqlFlatMapFunc(dataTypeInfo,
+                        types,
+                        baseCdc.getTimePrecision(),
+                        baseCdc.getTimeZone());
+            }
             return new CusFlatMapFunc(dataTypeInfo,
                     types,
                     baseCdc.getTimePrecision(),
