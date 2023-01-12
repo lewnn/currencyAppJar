@@ -3,6 +3,7 @@ package com.app.cdc;
 import com.app.constant.CdcConstant;
 import com.app.utils.ExecuteSqlProcess;
 import org.apache.doris.flink.table.DorisDynamicTableFactory;
+import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
@@ -119,7 +120,18 @@ public abstract class BaseCdc implements Serializable {
 
     public String getJobName(){
         return cdcProper.getOrDefault("pipeline.name","").toString();
-    };
+    }
+
+    public Configuration getEnvConfig() {
+        Configuration config = new Configuration();
+        cdcProper.forEach((key, values) ->{
+            String ksyStr = key.toString().replace(" ", "");
+            if(ksyStr.startsWith(CdcConstant.FLINK_CONFIG)){
+                config.setString(ksyStr.replace(CdcConstant.FLINK_CONFIG, ""), values.toString());
+            }
+        });
+        return config;
+    }
 
     public abstract DataStream<String> addSource(StreamExecutionEnvironment environment);
 

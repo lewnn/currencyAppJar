@@ -6,9 +6,12 @@ import com.app.entity.DataTypeProcess;
 import com.app.func.FlatMapBuilder;
 import com.app.sink.CusDorisSinkBuilder;
 import org.apache.flink.api.common.functions.MapFunction;
+import org.apache.flink.configuration.Configuration;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
+import org.apache.flink.streaming.api.environment.CheckpointConfig;
+import org.apache.flink.streaming.api.environment.ExecutionCheckpointingOptions;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.ProcessFunction;
 import org.apache.flink.table.api.DataTypes;
@@ -21,7 +24,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class CdcExecutor implements Serializable {
-    private final StreamExecutionEnvironment environment = StreamExecutionEnvironment.getExecutionEnvironment();
+    private StreamExecutionEnvironment environment;
     private volatile static ConcurrentHashMap<String, OutputTag<Map>> outputTagMap;
 
     public CdcExecutor(ConcurrentHashMap<String, OutputTag<Map>> outputTagMap) {
@@ -29,7 +32,10 @@ public class CdcExecutor implements Serializable {
     }
 
     public void executeSql(BaseCdc baseCdc) throws Exception {
-        environment.enableCheckpointing(20000);
+        Configuration config = baseCdc.getEnvConfig();
+        config.set(ExecutionCheckpointingOptions.EXTERNALIZED_CHECKPOINT, CheckpointConfig.ExternalizedCheckpointCleanup.RETAIN_ON_CANCELLATION);
+        environment = StreamExecutionEnvironment.getExecutionEnvironment(config);
+        environment.enableCheckpointing(baseCdc.getCheckpointing());
         DataStream<String> startStream = baseCdc.addSource(environment);
         //旁路输出
         SingleOutputStreamOperator<HashMap> afterTag = process(startStream, baseCdc);
