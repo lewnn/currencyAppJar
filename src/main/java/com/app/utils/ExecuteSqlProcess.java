@@ -5,6 +5,7 @@ import com.app.cdc.BaseCdc;
 import com.app.cdc.MysqlCdc;
 import com.app.cdc.OracleCdc;
 import com.app.config.ExcutorConfig;
+import com.app.constant.DataBaseConstant;
 import com.app.constant.FlinkConstant;
 import com.app.entity.DataTypeProcess;
 import org.slf4j.Logger;
@@ -146,6 +147,8 @@ public class ExecuteSqlProcess {
                 res.put(resultSet.getString("name") == null ? "" : resultSet.getString("name"),
                         resultSet.getString("value") == null ? "" : resultSet.getString("value"));
             }
+            HashMap<String, String> passwordConfig = getPasswordConfig(statement);
+            res.putAll(passwordConfig);
             ConUtil.close(con, statement, resultSet);
         } catch (IOException | SQLException e) {
             logger.error("获取config是出错", e);
@@ -154,6 +157,24 @@ public class ExecuteSqlProcess {
     }
 
 
+    private static HashMap<String, String> getPasswordConfig(Statement statement) throws SQLException {
+        HashMap<String, String> res = new HashMap<>();
+        ResultSet resultSet = statement.executeQuery(FlinkConstant.getEncodePasswordConfig());
+        while (resultSet.next()) {
+            String name = resultSet.getString("name");
+            String password = resultSet.getString("password");
+            res.put(String.format(DataBaseConstant.DB_NAME_BARE_TAG, name),  DesUtils.decrypt(password));
+        }
+        return res;
+    }
+
+    /**
+     *
+     * @author lcg
+     * @operate 加载表结构 cdc
+     * @date 2023/2/7 14:36
+     * @return void
+     */
     public static void loadSchema(BaseCdc baseCdc) {
         MainApp.dataSchema.clear();
         String reg = "\\(\\d+\\)";

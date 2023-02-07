@@ -68,7 +68,7 @@ public class SqlInterParseHelper {
      * @date 2022/8/16 16:13
      */
     public String enhanceSql(String sql) {
-        if (ExcutorConfig.DORIS_VERSION.equals(DorisVersionEnum.V1_1_1)
+        if (ExcutorConfig.DORIS_VERSION.getVersion() >= DorisVersionEnum.V1_1_1.getVersion()
                 && sql.replace(" ", "").toUpperCase().startsWith(FlinkConstant.CREATE_TABLE)
                 && sql.replace(" ", "").toUpperCase().contains(FlinkConstant.CONNECTOR)) {
             // 1. 主要替换sink.batch.size 为 doris.batch.size
