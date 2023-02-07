@@ -137,7 +137,7 @@ public abstract class FlinkConstant {
                 " union  SELECT  name,value  from dlink_variable dv  WHERE  dv.enabled  = 1 ";
     }
     public static String getEncodePasswordConfig() {
-        return " SELECT  name ,password  from dbase_database WHERE   encode_flag is TRUE " ;
+        return " SELECT  name ,password ,encode_flag from dbase_database WHERE   enabled is TRUE " ;
     }
 
     public static String getExecuteSqlPreparedPara() {

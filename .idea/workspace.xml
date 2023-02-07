@@ -10,13 +10,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aa89a064-89df-4c51-9dd2-b37b839d1293" name="Default Changelist" comment="333">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/app/constant/DataBaseConstant.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/app/utils/DesUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/MainApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/MainApp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/app/constant/FlinkConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/constant/FlinkConstant.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/app/utils/ExecuteSqlProcess.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/utils/ExecuteSqlProcess.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/utils/SqlInterParseHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/utils/SqlInterParseHelper.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -295,7 +291,7 @@
       <workItem from="1672714663263" duration="8866000" />
       <workItem from="1672974465956" duration="55282000" />
       <workItem from="1675646547734" duration="1363000" />
-      <workItem from="1675750423703" duration="8377000" />
+      <workItem from="1675750423703" duration="9069000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <created>1636960539098</created>
@@ -430,7 +426,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673505602327</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="333">
+      <created>1675760944944</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1675760944944</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

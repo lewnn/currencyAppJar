@@ -163,7 +163,8 @@ public class ExecuteSqlProcess {
         while (resultSet.next()) {
             String name = resultSet.getString("name");
             String password = resultSet.getString("password");
-            res.put(String.format(DataBaseConstant.DB_NAME_BARE_TAG, name),  DesUtils.decrypt(password));
+            boolean encodeFlag = resultSet.getBoolean("encode_flag");
+            res.put(String.format(DataBaseConstant.DB_NAME_BARE_TAG, name), encodeFlag ? DesUtils.decrypt(password) : password);
         }
         return res;
     }
