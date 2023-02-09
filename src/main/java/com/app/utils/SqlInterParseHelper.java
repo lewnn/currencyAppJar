@@ -18,6 +18,7 @@ public class SqlInterParseHelper {
     private static final Logger log = LoggerFactory.getLogger(SqlInterParseHelper.class);
 
     public final static String DEFINED_PARA = ":=";
+    public final static String USE_PARA_START = "${";
     private final List<String> inSqlList; //传入的sql集合
     private final List<String> outList = new ArrayList<>();  //传出的sql集合
     private List<String> paraSqlList; // 参数sql
@@ -35,7 +36,12 @@ public class SqlInterParseHelper {
             List<String> sqlRes = new ArrayList<>();
             for (String sql : split) {
                 if (!sql.contains(DEFINED_PARA) && !sql.trim().isEmpty()) {
-                    sqlRes.add(enhanceSql(parseOutOneSql(sql)));
+                    int maxTurn = 200;
+                    while (sql.contains(USE_PARA_START) && maxTurn > 0) {
+                        sql = parseOutOneSql(sql);
+                        maxTurn--;
+                    }
+                    sqlRes.add(enhanceSql(sql));
                 }
             }
             if (!sqlRes.isEmpty()) {

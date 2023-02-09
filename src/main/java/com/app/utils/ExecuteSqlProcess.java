@@ -55,7 +55,6 @@ public class ExecuteSqlProcess {
                         return envConfig;
                     }
 
-
                 } catch (SQLException e1) {
                     logger.error("任务异常");
                     logger.error("执行sql失败", e1);
@@ -144,8 +143,14 @@ public class ExecuteSqlProcess {
             Statement statement = con.createStatement();
             ResultSet resultSet = statement.executeQuery(FlinkConstant.getExecuteAllSqlConfig());
             while (resultSet.next()) {
-                res.put(resultSet.getString("name") == null ? "" : resultSet.getString("name"),
-                        resultSet.getString("value") == null ? "" : resultSet.getString("value"));
+                String name = resultSet.getString("name");
+                String value = resultSet.getString("value");
+                int flag = resultSet.getInt("flag");
+                if(flag == 1){
+                    //数据库连接信息，名称要加--ci
+                    name = String.format(DataBaseConstant.DB_BARE_CONNECT_INFO, name);
+                }
+                res.put(name, value);
             }
             HashMap<String, String> passwordConfig = getPasswordConfig(statement);
             res.putAll(passwordConfig);

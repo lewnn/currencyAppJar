@@ -133,8 +133,8 @@ public abstract class FlinkConstant {
     }
 
     public static String getExecuteAllSqlConfig() {
-        return " SELECT  name ,connect_info as value from dbase_database WHERE connect_info  is not NULL  and connect_info != '' " +
-                " union  SELECT  name,value  from dlink_variable dv  WHERE  dv.enabled  = 1 ";
+        return " SELECT  name ,connect_info as value ,1 as flag from dbase_database WHERE connect_info  is not NULL  and connect_info != '' " +
+                " union  SELECT  name,value ,2 as flag from dlink_variable dv  WHERE  dv.enabled  = 1 ";
     }
     public static String getEncodePasswordConfig() {
         return " SELECT  name ,password ,encode_flag from dbase_database WHERE   enabled is TRUE " ;
