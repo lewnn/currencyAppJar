@@ -1,3 +1,4 @@
+/*
 package com.app.entity;
 
 import com.app.utils.GetSubStr;
@@ -6,9 +7,11 @@ import org.apache.flink.table.api.TableEnvironment;
 
 import java.util.List;
 
+*/
 /**
  * 聚合实体
- */
+ *//*
+
 public class AggTablePara {
     String name; //聚合后的表名
     String columns;//聚合的列名
@@ -43,11 +46,13 @@ public class AggTablePara {
         this.aggBy = aggBy;
     }
 
-    /**
+    */
+/**
      * 创建聚合表
      * @param streamTableEnv
      * @param aggTablePara
-     */
+     *//*
+
     public static void createAggTable(TableEnvironment streamTableEnv, AggTablePara aggTablePara) {
         Table tab = streamTableEnv.sqlQuery("select * from "+ aggTablePara.getTable());
         List<String> filter = aggTablePara.getFilter();
@@ -87,3 +92,4 @@ public class AggTablePara {
 
 
 }
+*/

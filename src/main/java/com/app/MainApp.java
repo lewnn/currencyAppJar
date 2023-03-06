@@ -2,8 +2,7 @@ package com.app;
 
 import com.app.cdc.BaseCdc;
 import com.app.check.FlinkSqlCheck;
-import com.app.constant.FlinkConstant;
-import com.app.entity.AggTablePara;
+//import com.app.entity.AggTablePara;
 import com.app.entity.DataTypeProcess;
 import com.app.executor.CdcExecutor;
 import com.app.utils.ExecuteSqlProcess;
@@ -98,12 +97,13 @@ public class MainApp {
                 //检验是否有自定义函数
                 FlinkUtils.registerFunctionOfFlink(streamTableEnv, listSql);
                 for (String sqlText : listSql) {
-                    if (sqlText.replace(" ", "").toUpperCase().contains(FlinkConstant.CREATE_AGG_TABLE)) {
+/*                    if (sqlText.replace(" ", "").toUpperCase().contains(FlinkConstant.CREATE_AGG_TABLE)) {
                         AggTablePara aggTablePara = AggTablePara.buildAggTable(sqlText);
                         AggTablePara.createAggTable(streamTableEnv, aggTablePara);
                     } else {
                         streamTableEnv.executeSql(sqlText);
-                    }
+                    }*/
+                    streamTableEnv.executeSql(sqlText);
                 }
             } else {
                 return;

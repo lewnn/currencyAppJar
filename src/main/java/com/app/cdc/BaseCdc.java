@@ -164,5 +164,11 @@ public abstract class BaseCdc implements Serializable {
         }
     }
 
+    public String getIndex(){
+        String res = cdcProper.getProperty("ds");
+
+        return "";
+    }
+
 
 }

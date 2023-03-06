@@ -12,6 +12,9 @@ import java.util.Random;
 
 public class CusDorisSinkBuilder {
     public DorisSink<RowData> newDorisSink(String tableName, Properties properties, String[] fields, DataType[] types) {
+        if (fields == null || fields.length == 0) {
+            throw new RuntimeException("获取表" + tableName + "字段信息为空");
+        }
         String columns = String.join(",", fields) + ",__DORIS_DELETE_SIGN__";
         Properties steamLoadProp = getSteamLoadProp(properties);
         steamLoadProp.put("columns", columns);
