@@ -161,8 +161,8 @@ public class JdbcDynamicTableFactory implements DynamicTableSourceFactory, Dynam
                     .intType()
                     .defaultValue(3)
                     .withDescription("The max retry times if writing records to database failed.");
-    private static final ConfigOption<String> LOOKUP_DATA_FILTER =
-            ConfigOptions.key("lookup.data.filter")
+    private static final ConfigOption<String> DATA_FILTER =
+            ConfigOptions.key("data.filter")
                     .stringType()
                     .noDefaultValue()
                     .withDescription(
@@ -245,7 +245,7 @@ public class JdbcDynamicTableFactory implements DynamicTableSourceFactory, Dynam
                 readableConfig.get(LOOKUP_CACHE_MAX_ROWS),
                 readableConfig.get(LOOKUP_CACHE_TTL).toMillis(),
                 readableConfig.get(LOOKUP_MAX_RETRIES),
-                readableConfig.get(LOOKUP_DATA_FILTER));
+                readableConfig.get(DATA_FILTER));
     }
 
     private JdbcExecutionOptions getJdbcExecutionOptions(ReadableConfig config) {
@@ -303,7 +303,7 @@ public class JdbcDynamicTableFactory implements DynamicTableSourceFactory, Dynam
         optionalOptions.add(SINK_MAX_RETRIES);
         optionalOptions.add(FactoryUtil.SINK_PARALLELISM);
         optionalOptions.add(MAX_RETRY_TIMEOUT);
-        optionalOptions.add(LOOKUP_DATA_FILTER);
+        optionalOptions.add(DATA_FILTER);
         return optionalOptions;
     }
 
