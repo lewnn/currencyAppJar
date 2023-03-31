@@ -9,7 +9,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="aa89a064-89df-4c51-9dd2-b37b839d1293" name="Default Changelist" comment="ceshi" />
+    <list default="true" id="aa89a064-89df-4c51-9dd2-b37b839d1293" name="Default Changelist" comment="ceshi">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -429,7 +431,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675760944944</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="ceshi">
+      <created>1680248909650</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1680248909650</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -587,7 +596,8 @@
     <MESSAGE value="ds" />
     <MESSAGE value="222" />
     <MESSAGE value="333" />
-    <option name="LAST_COMMIT_MESSAGE" value="333" />
+    <MESSAGE value="ceshi" />
+    <option name="LAST_COMMIT_MESSAGE" value="ceshi" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
