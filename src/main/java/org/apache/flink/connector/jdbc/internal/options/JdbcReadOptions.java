@@ -70,7 +70,7 @@ public class JdbcReadOptions implements Serializable {
         this.fetchSize = fetchSize;
         this.autoCommit = autoCommit;
 
-        this.dataFilter = dataFilter;
+        this.dataFilter = dataFilter == null ? null : dataFilter.replace("\"", "'");
     }
 
     public Optional<String> getQuery() {

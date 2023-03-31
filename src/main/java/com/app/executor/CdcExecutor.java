@@ -49,14 +49,16 @@ public class CdcExecutor implements Serializable {
         for (Map.Entry<String, OutputTag<Map>> stringOutputTagEntry : outputTagMap.entrySet()) {
             OutputTag<Map> data = stringOutputTagEntry.getValue();
             String id = data.getId();
+            String sourceTableName = id.split("\\.")[1];
             String sinkTableName = baseCdc.getSinkTableName();
-            String tableName = (!sinkTableName.isEmpty() ? sinkTableName : baseCdc.getPrefix() + id.split("\\.")[1]).toUpperCase();
+            String tableName = (!sinkTableName.isEmpty() ? sinkTableName : baseCdc.getPrefix() + sourceTableName).toUpperCase();
             //字段名称及数据类型
             List<DataTypeProcess> dataTypeInfo = MainApp.dataSchema.get(tableName);
             String[] field = getFields(dataTypeInfo, baseCdc);
             DataType[] types = getTypeList(dataTypeInfo, baseCdc);
+            System.err.println("table---:" + id + " " + sourceTableName);
             afterTag.getSideOutput(data)
-                    .flatMap(FlatMapBuilder.builder(baseCdc).setType(dataTypeInfo, types).build()).setParallelism(1)
+                    .flatMap(FlatMapBuilder.builder(baseCdc).setType(dataTypeInfo, types).setTableName(sourceTableName).build()).setParallelism(1)
                     .sinkTo(new CusDorisSinkBuilder().newDorisSink(tableName, baseCdc.getSinkProp(), field, types)).setParallelism(1).name(tableName);
         }
         environment.executeAsync(!baseCdc.getJobName().isEmpty() ? baseCdc.getJobName() : "CDC JOBS");
@@ -81,37 +83,40 @@ public class CdcExecutor implements Serializable {
                 }).setParallelism(1);
     }
 
+    /***
+     * @Description: 获取字段个数及名称
+     * @Author: lcg
+     * @Date: 2023/3/17 15:54
+     */
     private String[] getFields(List<DataTypeProcess> dataTypeInfo, BaseCdc baseCdc) {
         List<String> fieldList = new ArrayList<>();
         for (DataTypeProcess dataType : dataTypeInfo) {
             fieldList.add(dataType.getName());
         }
-        String[] field;
         if (baseCdc.isOpenChain()) {
-            field = fieldList.toArray(new String[fieldList.size() + 1]);
-            field[fieldList.size()] = baseCdc.getSinkEndTimeName();
-        } else {
-            field = fieldList.toArray(new String[fieldList.size()]);
+            fieldList.addAll(baseCdc.getSinkTimedNameList());
         }
-        return field;
+        return  fieldList.toArray(new String[0]);
     }
 
 
+    /***
+     * @Description: 获取字段的类型
+     * @Author: lcg
+     * @Date: 2023/3/17 15:56
+     */
     private DataType[] getTypeList(List<DataTypeProcess> dataTypeInfo, BaseCdc baseCdc) {
         List<DataType> typeList = new ArrayList<>();
         for (DataTypeProcess dataType : dataTypeInfo) {
             typeList.add(dataType.getDataType());
         }
-        DataType[] types;
         if (baseCdc.isOpenChain()) {
-            types = typeList.toArray(new DataType[typeList.size() + 1]);
-            //field的属性
-            types[typeList.size()] = DataTypes.VARCHAR(30);
-        } else {
-            types = typeList.toArray(new DataType[typeList.size()]);
+            for (String ignored : baseCdc.getSinkTimedNameList()) {
+                //默认 自动添加字段为String类型  适配Datetime类型 适配Date类型
+                typeList.add(DataTypes.VARCHAR(30));
+            }
         }
-        return types;
+        return typeList.toArray(new DataType[0]);
     }
-
 
 }

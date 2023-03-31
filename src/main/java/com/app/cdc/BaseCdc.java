@@ -1,6 +1,7 @@
 package com.app.cdc;
 
 import com.app.constant.CdcConstant;
+import com.app.enums.ZipVersionEnum;
 import com.app.utils.ExecuteSqlProcess;
 import org.apache.doris.flink.table.DorisDynamicTableFactory;
 import org.apache.flink.configuration.Configuration;
@@ -8,10 +9,7 @@ import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,7 +56,7 @@ public abstract class BaseCdc implements Serializable {
         return properties;
     }
 
-    public  String getTables(){
+    public String getTables() {
         return cdcProper.getProperty("table-name");
     }
 
@@ -69,11 +67,11 @@ public abstract class BaseCdc implements Serializable {
     public abstract String getOutputTagName(HashMap source);
 
 
-    public  String getPrefix(){
+    public String getPrefix() {
         return cdcProper.getProperty("cus.table.prefix");
     }
 
-    public  Properties getSinkProp(){
+    public Properties getSinkProp() {
         Properties properties = new Properties();
         for (Object o : cdcProper.keySet()) {
             String proKey = o.toString();
@@ -85,14 +83,18 @@ public abstract class BaseCdc implements Serializable {
             }
         }
         return properties;
-    };
+    }
 
-    public  int getTimePrecision(){
+    public int getTimePrecision() {
         return Integer.parseInt(cdcProper.getProperty("cus.time.precision", "1000"));
     }
 
-    public  int getTimeZone(){
+    public int getTimeZone() {
         return Integer.parseInt(cdcProper.getProperty("cus.time.zone", "0"));
+    }
+
+    public int getDebeziumTimeZone() {
+        return Integer.parseInt(cdcProper.getProperty("cus.debezium.time.zone", "8"));
     }
 
     public void loadTableSchema() {
@@ -100,15 +102,59 @@ public abstract class BaseCdc implements Serializable {
     }
 
     public String getSinkEndTimeName() {
-        return cdcProper.getProperty("chain.end.name");
+        return cdcProper.getProperty("cus.zip.sink.name");
+    }
+
+    public List<String> getSinkTimedNameList() {
+        List<String> colNameList = new ArrayList<>();
+        String colName = getSinkEndTimeName();
+        if (colName != null) {
+            colNameList.addAll(Arrays.asList(colName.split(",")));
+        }
+        return colNameList;
+    }
+
+    /***
+     * @Description:  拆分 table1:col1,table2:col2形式内容
+     * @Author: lcg
+     * @Date: 2023/3/22 9:01
+     */
+    public Map<String,String> getUpdateTimeColName() {
+        Map<String, String> colName = new HashMap<>();
+        String updateTimeName = cdcProper.getProperty("cus.zip.update.time.name", "");
+        if(!updateTimeName.isEmpty()){
+            String[] tableAndCol = updateTimeName.split(",");
+            for (String tableAndColStr : tableAndCol) {
+                String[] tableColArr = tableAndColStr.split(":");
+                if(tableColArr.length == 2){
+                    colName.put(tableColArr[0], tableColArr[1]);
+                }
+            }
+        }
+        return colName;
     }
 
     public Long getCheckpointing() {
         return Long.valueOf(cdcProper.getProperty("cus.time.checkpointing"));
     }
 
+    /***
+     * @Description: 是否使用拉链表
+     * @Author: lcg
+     * @Date: 2023/3/22 9:20
+     */
     public Boolean isOpenChain() {
-        return Boolean.valueOf(cdcProper.getProperty("cus.open.chain"));
+        return getZipVersion().isOpenChain();
+    }
+
+    /***
+     * @Description: 拉链表版本
+     * @Author: lcg
+     * @Date: 2023/3/22 9:20
+     */
+    public ZipVersionEnum getZipVersion() {
+        String zipVersion = cdcProper.getProperty("cus.zip.version", "none");
+        return ZipVersionEnum.getZipVersionByVersion(zipVersion);
     }
 
     public String getSinkTableName() {
@@ -118,15 +164,15 @@ public abstract class BaseCdc implements Serializable {
 
     public abstract String getTablesColumnsInfo(String db, String tableName);
 
-    public String getJobName(){
-        return cdcProper.getOrDefault("pipeline.name","").toString();
+    public String getJobName() {
+        return cdcProper.getOrDefault("pipeline.name", "").toString();
     }
 
     public Configuration getEnvConfig() {
         Configuration config = new Configuration();
-        cdcProper.forEach((key, values) ->{
+        cdcProper.forEach((key, values) -> {
             String ksyStr = key.toString().replace(" ", "");
-            if(ksyStr.startsWith(CdcConstant.FLINK_CONFIG)){
+            if (ksyStr.startsWith(CdcConstant.FLINK_CONFIG)) {
                 config.setString(ksyStr.replace(CdcConstant.FLINK_CONFIG, ""), values.toString());
             }
         });
@@ -164,7 +210,7 @@ public abstract class BaseCdc implements Serializable {
         }
     }
 
-    public String getIndex(){
+    public String getIndex() {
         String res = cdcProper.getProperty("ds");
 
         return "";

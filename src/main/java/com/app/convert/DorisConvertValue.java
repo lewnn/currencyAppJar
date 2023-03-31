@@ -8,9 +8,11 @@ import org.apache.flink.table.types.logical.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 
 public class DorisConvertValue {
-
+    private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public static Object convertValue(Object value, DataType logicalType, int timePrecision, int timeZone) {
         if (value == null) {
@@ -21,7 +23,7 @@ public class DorisConvertValue {
         } else if (logicalType.getLogicalType() instanceof DateType) {
             return StringData.fromString(Instant.ofEpochMilli((long) value).atZone(ZoneId.systemDefault()).toLocalDate().toString());
         } else if (logicalType.getLogicalType() instanceof TimestampType) {
-            int num = 1;
+            int num;
             if (timePrecision == 11) {
                 num = 1000 * 1000;
             } else{
@@ -36,4 +38,21 @@ public class DorisConvertValue {
         }
     }
 
+    /***
+     * @Description: 格式化时间 TIME
+     * @Author: lcg
+     * @Date: 2023/3/22 9:17
+     */
+    public static String formatTime(LocalDateTime date) {
+        return TIME_FORMATTER.format(date);
+    }
+
+    /***
+     * @Description: 格式化日期 DATE
+     * @Author: lcg
+     * @Date: 2023/3/22 9:17
+     */
+    public static String formatDate(LocalDateTime date) {
+        return DATE_FORMATTER.format(date);
+    }
 }
