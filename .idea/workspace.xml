@@ -9,11 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="aa89a064-89df-4c51-9dd2-b37b839d1293" name="Default Changelist" comment="333">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/constant/FlinkConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/constant/FlinkConstant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/utils/ExecuteSqlProcess.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/utils/ExecuteSqlProcess.java" afterDir="false" />
-    </list>
+    <list default="true" id="aa89a064-89df-4c51-9dd2-b37b839d1293" name="Default Changelist" comment="ceshi" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
