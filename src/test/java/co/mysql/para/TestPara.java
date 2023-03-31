@@ -1,8 +1,8 @@
 package co.mysql.para;
 
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.table.api.TableResult;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
+import org.junit.Test;
 
 /**
  * Description:
@@ -10,9 +10,9 @@ import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
  * Date:2023/3/6
  * TIME:11:26
  */
-public class Test {
+public class TestPara {
 
-    @org.junit.Test
+    @Test
     public void test(){
 //        StreamExecutionEnvironment streamEnv = StreamExecutionEnvironment.createRemoteEnvironment("10.1.51.25",8081);
         StreamExecutionEnvironment streamEnv = StreamExecutionEnvironment.getExecutionEnvironment();
