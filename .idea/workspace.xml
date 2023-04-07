@@ -9,19 +9,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="aa89a064-89df-4c51-9dd2-b37b839d1293" name="Default Changelist" comment="DATA_FILTER">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/app/enums/ZipVersionEnum.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/app/func/ChainFlatMapFuncV2.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/app/func/ChainFlatMapFuncV3.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+    <list default="true" id="aa89a064-89df-4c51-9dd2-b37b839d1293" name="Default Changelist" comment="remove test">
+      <change afterPath="$PROJECT_DIR$/src/test/java/co/mysqlDDLTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/currencyAppJar.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/MainApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/MainApp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/app/cdc/BaseCdc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/cdc/BaseCdc.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/app/constant/CdcConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/constant/CdcConstant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/convert/DorisConvertValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/convert/DorisConvertValue.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/app/executor/CdcExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/executor/CdcExecutor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/func/FlatMapBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/app/func/FlatMapBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/apache/flink/connector/jdbc/internal/options/JdbcReadOptions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/apache/flink/connector/jdbc/internal/options/JdbcReadOptions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/co/mysql/para/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/co/mysql/para/Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/co/test/TestSqlCdc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/co/test/TestSqlCdc.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/co/test/TestSqlCdcNoChain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/co/test/TestSqlCdcNoChain.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,15 +33,15 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -59,7 +57,8 @@
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
-        <option name="localRepository" value="C:\Users\admin\.m2\repository" />
+        <option name="localRepository" value="C:\Users\admin\.m2" />
+        <option name="outputLevel" value="WARN" />
         <option name="userSettingsFile" value="C:\Users\admin\.m2\settings.xml" />
       </MavenGeneralSettings>
     </option>
@@ -80,7 +79,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="go.import.settings.migrated" value="true" />
-    <property name="last_opened_file_path" value="E:/dailywork/2023-03-06-flink1.16.1/flink-release-1.16.1" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../flink-cdc-connectors" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
@@ -107,7 +106,7 @@
       <recent name="com.app.utils" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.DorisConvertValue">
+  <component name="RunManager" selected="JUnit.mysqlDDLTest.test">
     <configuration name="BaseCdc" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.app.cdc.BaseCdc" />
       <module name="currencyAppJar" />
@@ -147,36 +146,18 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TestMysqlCdc.test3" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="currencyAppJar" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="co.test.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="co.test" />
-      <option name="MAIN_CLASS_NAME" value="co.test.TestMysqlCdc" />
-      <option name="METHOD_NAME" value="test3" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Test.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TestPara.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="currencyAppJar" />
       <extension name="coverage">
         <pattern>
@@ -185,7 +166,23 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="co.mysql.para" />
-      <option name="MAIN_CLASS_NAME" value="co.mysql.para.Test" />
+      <option name="MAIN_CLASS_NAME" value="co.mysql.para.TestPara" />
+      <option name="METHOD_NAME" value="test" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mysqlDDLTest.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="currencyAppJar" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="co.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="co" />
+      <option name="MAIN_CLASS_NAME" value="co.mysqlDDLTest" />
       <option name="METHOD_NAME" value="test" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
@@ -194,11 +191,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.mysqlDDLTest.test" />
+        <item itemvalue="JUnit.TestPara.test" />
         <item itemvalue="Application.DorisConvertValue" />
         <item itemvalue="Application.BaseCdc" />
         <item itemvalue="Application.CdcExecutor" />
-        <item itemvalue="JUnit.Test.test" />
-        <item itemvalue="JUnit.TestMysqlCdc.test3" />
       </list>
     </recent_temporary>
   </component>
@@ -310,6 +307,7 @@
       <workItem from="1679034236303" duration="20279000" />
       <workItem from="1679279684505" duration="7368000" />
       <workItem from="1679446205448" duration="17036000" />
+      <workItem from="1680510471983" duration="23892000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <created>1636960539098</created>
@@ -465,7 +463,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675906829989</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="remove test">
+      <created>1680251545931</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1680251545931</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -475,6 +480,31 @@
     <option name="TAB_STATES">
       <map>
         <entry key="1">
+          <value>
+            <State>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="roots">
+                    <value>
+                      <list>
+                        <option value="$PROJECT_DIR$" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+        <entry key="15152c7d-9e07-44ba-98f4-36d37ffb7aa0">
           <value>
             <State>
               <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
@@ -631,6 +661,11 @@
         </entry>
       </map>
     </option>
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="15152c7d-9e07-44ba-98f4-36d37ffb7aa0" value="TOOL_WINDOW" />
+      </map>
+    </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
@@ -643,7 +678,8 @@
     <MESSAGE value="ds" />
     <MESSAGE value="222" />
     <MESSAGE value="333" />
-    <option name="LAST_COMMIT_MESSAGE" value="333" />
+    <MESSAGE value="remove test" />
+    <option name="LAST_COMMIT_MESSAGE" value="remove test" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

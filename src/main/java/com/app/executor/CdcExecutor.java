@@ -31,9 +31,15 @@ public class CdcExecutor implements Serializable {
         CdcExecutor.outputTagMap = outputTagMap;
     }
 
+
     public void executeSql(BaseCdc baseCdc) throws Exception {
         Configuration config = baseCdc.getEnvConfig();
         config.set(ExecutionCheckpointingOptions.EXTERNALIZED_CHECKPOINT, CheckpointConfig.ExternalizedCheckpointCleanup.RETAIN_ON_CANCELLATION);
+        //架子啊配置
+        Properties initConfig = baseCdc.getInitConfig();
+        for (String stringPropertyName : initConfig.stringPropertyNames()) {
+            config.setString(stringPropertyName, initConfig.getProperty(stringPropertyName));
+        }
         environment = StreamExecutionEnvironment.getExecutionEnvironment(config);
         environment.enableCheckpointing(baseCdc.getCheckpointing());
         DataStream<String> startStream = baseCdc.addSource(environment);
@@ -41,7 +47,6 @@ public class CdcExecutor implements Serializable {
         SingleOutputStreamOperator<HashMap> afterTag = process(startStream, baseCdc);
         //旁路输出 处理
         processTagAndAddSink(afterTag, baseCdc);
-
     }
 
     //旁路输出处理 &&  add sink
@@ -56,12 +61,11 @@ public class CdcExecutor implements Serializable {
             List<DataTypeProcess> dataTypeInfo = MainApp.dataSchema.get(tableName);
             String[] field = getFields(dataTypeInfo, baseCdc);
             DataType[] types = getTypeList(dataTypeInfo, baseCdc);
-            System.err.println("table---:" + id + " " + sourceTableName);
             afterTag.getSideOutput(data)
                     .flatMap(FlatMapBuilder.builder(baseCdc).setType(dataTypeInfo, types).setTableName(sourceTableName).build()).setParallelism(1)
                     .sinkTo(new CusDorisSinkBuilder().newDorisSink(tableName, baseCdc.getSinkProp(), field, types)).setParallelism(1).name(tableName);
         }
-        environment.executeAsync(!baseCdc.getJobName().isEmpty() ? baseCdc.getJobName() : "CDC JOBS");
+        environment.executeAsync();
     }
 
 

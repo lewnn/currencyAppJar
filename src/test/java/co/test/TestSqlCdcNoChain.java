@@ -34,7 +34,7 @@ public class TestSqlCdcNoChain {
                 "    'cus.time.checkpointing' = '10000',\n" +
                 "\t'cus.open.chain' = 'true'\n" +
                 ")\n";
-        BaseCdc baseCdc = BaseCdc.getInstance(sql, "4313");
+        BaseCdc baseCdc = BaseCdc.getInstance(sql);
         ConcurrentHashMap<String, OutputTag<Map>> outputTagMap = new ConcurrentHashMap<>();
         for (String tag : baseCdc.getTables().split(",")) {
             outputTagMap.put(tag, new OutputTag<Map>(tag) {

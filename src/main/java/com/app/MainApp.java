@@ -54,7 +54,7 @@ public class MainApp {
                 executeSql(sourceSql, sinkSql, envConfig);
                 logger.info("合并模式任务提交结束");
             } else if (cdcMode) {
-                BaseCdc baseCdc = BaseCdc.getInstance(flinkSqlList.get(0), ids[0].split(",")[0]);
+                BaseCdc baseCdc = BaseCdc.getInstance(flinkSqlList.get(0));
                 baseCdc.loadTableSchema();//加载表结构
                 ConcurrentHashMap<String, OutputTag<Map>> outputTagMap = new ConcurrentHashMap<>();
                 for (String tag : baseCdc.getTables().split(",")) {

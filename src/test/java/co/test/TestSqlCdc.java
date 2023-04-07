@@ -33,7 +33,7 @@ public class TestSqlCdc {
                 "    'cus.time.checkpointing' = '10000'\n" +
                 "    'table-name' = 'TEST.CDC_TEST'\n" +
                 ")";
-        BaseCdc baseCdc = BaseCdc.getInstance(sql, "4184");
+        BaseCdc baseCdc = BaseCdc.getInstance(sql);
         ConcurrentHashMap<String, OutputTag<Map>> outputTagMap = new ConcurrentHashMap<>();
         for (String tag : baseCdc.getTables().split(",")) {
             outputTagMap.put(tag, new OutputTag<Map>(tag) {

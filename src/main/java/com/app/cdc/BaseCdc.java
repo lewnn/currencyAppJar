@@ -14,8 +14,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public abstract class BaseCdc implements Serializable {
-
+    //全部config
     protected Properties cdcProper = new Properties();
+    //加载到ENV的config
+    protected Properties initProper = new Properties();
 
     public String getConnect() {
         return cdcProper.getProperty("connector");
@@ -45,6 +47,20 @@ public abstract class BaseCdc implements Serializable {
         return cdcProper.getProperty("hostname");
     }
 
+
+    public Properties getInitConfig() {
+        for (String key : cdcProper.stringPropertyNames()) {
+            if (!key.startsWith(CdcConstant.CUS_CONFIG)
+                    && !key.startsWith(CdcConstant.SINK)
+                    && !key.startsWith(CdcConstant.DEBEZIUM)
+                    && !CdcConstant.CDC_PARA_LIST.contains(key.replace(" ", ""))
+            ) {
+                initProper.put(key, cdcProper.getProperty(key));
+            }
+        }
+        return initProper;
+    }
+
     public Properties getDebeziumProperties() {
         Properties properties = new Properties();
         for (Object o : cdcProper.keySet()) {
@@ -67,10 +83,9 @@ public abstract class BaseCdc implements Serializable {
     public abstract String getOutputTagName(HashMap source);
 
 
-    public String getPrefix() {
-        return cdcProper.getProperty("cus.table.prefix");
-    }
 
+
+    //获取sink开头的配置， 主要是为了构建写入配置【sink】
     public Properties getSinkProp() {
         Properties properties = new Properties();
         for (Object o : cdcProper.keySet()) {
@@ -85,6 +100,10 @@ public abstract class BaseCdc implements Serializable {
         return properties;
     }
 
+    public String getPrefix() {
+        return cdcProper.getProperty("cus.table.prefix");
+    }
+
     public int getTimePrecision() {
         return Integer.parseInt(cdcProper.getProperty("cus.time.precision", "1000"));
     }
@@ -97,12 +116,12 @@ public abstract class BaseCdc implements Serializable {
         return Integer.parseInt(cdcProper.getProperty("cus.debezium.time.zone", "8"));
     }
 
-    public void loadTableSchema() {
-        ExecuteSqlProcess.loadSchema(this);
-    }
-
     public String getSinkEndTimeName() {
         return cdcProper.getProperty("cus.zip.sink.name");
+    }
+
+    public void loadTableSchema() {
+        ExecuteSqlProcess.loadSchema(this);
     }
 
     public List<String> getSinkTimedNameList() {
@@ -200,7 +219,7 @@ public abstract class BaseCdc implements Serializable {
         }
     }
 
-    public static BaseCdc getInstance(String sql, String idParas) {
+    public static BaseCdc getInstance(String sql) {
         if (sql.toUpperCase().contains(MysqlCdc.type.toUpperCase())) {
             return MysqlCdc.getInstance(sql);
         } else if (sql.toUpperCase().contains(OracleCdc.type.toUpperCase())) {
